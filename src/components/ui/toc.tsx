@@ -74,14 +74,15 @@ export function Toc({
   return (
     <div
       className={cn(
-        "bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-lg p-4 w-64 shrink-0 transition-shadow",
+        "sticky top-8 self-start bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-lg p-4 w-64 shrink-0 transition-shadow",
         scrolled ? "shadow-sm" : "shadow-none",
       )}
-      style={{ maxHeight: "80vh" }}
+      style={{ maxHeight: "calc(100vh - 4rem)" }}
     >
       <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-3 text-sm">On this page</h3>
       <div ref={navRef} className="relative">
-        <nav className="space-y-2 pl-1 pr-2 max-h-[60vh] overflow-auto">
+        <nav className="space-y-2 pl-1 pr-2 overflow-auto"
+             style={{ maxHeight: "calc(100vh - 10rem)" }}>
           {items.map((item) => (
             <a
               ref={(el) => (linkRefs.current[item.id] = el)}

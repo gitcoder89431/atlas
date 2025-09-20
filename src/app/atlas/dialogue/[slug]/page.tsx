@@ -4,8 +4,8 @@ import { TracingBeam } from '@/components/ui/tracing-beam'
 import { cn } from '@/lib/utils'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { Toc } from '@/components/ui/toc'
 import { ArrowLeft, Clock, Tag, Users, Calendar, Share2 } from 'lucide-react'
+import { Toc } from '@/components/ui/toc'
 
 interface DialoguePageProps {
   params: {
@@ -31,8 +31,20 @@ export default async function DialoguePage({ params }: DialoguePageProps) {
   }
 
   const readingTime = Math.ceil(article.content.replace(/<[^>]*>/g, '').split(' ').length / 200)
-  // Strip any in-markdown "Continue the Exploration..." section to avoid duplicate blocks
-  const cleanContent = article.content.replace(/<h[2-3][^>]*>\s*Continue the Exploration\.\.\.\s*<\/h[2-3]>[\s\S]*$/i, '')
+  // Remove only the inline "Continue the Exploration..." section (keep trailing keywords/source)
+  const withoutInlineContinue = article.content.replace(
+    /<h[2-3][^>]*>\s*Continue the Exploration\.\.\.\s*<\/h[2-3]>[\s\S]*?(?=<hr\b|<h[1-6]|$)/i,
+    '',
+  )
+  // Split after the opening paragraph/question: find first section heading (h2/h3)
+  const firstSection = /<h[2-3][^>]*>/i.exec(withoutInlineContinue)
+  const introHtml = firstSection ? withoutInlineContinue.slice(0, firstSection.index) : ''
+  const contentAfterIntro = firstSection ? withoutInlineContinue.slice(firstSection.index) : withoutInlineContinue
+  // Split contentAfterIntro at "Our Conclusion" or "Moderator's Summary" to insert a visual separator before the conclusion
+  const conclusionRegex = /<h[2-3][^>]*>\s*(Our Conclusion|Moderator's Summary)\s*<\/h[2-3]>/i
+  const match = conclusionRegex.exec(contentAfterIntro)
+  const beforeHtml = match ? contentAfterIntro.slice(0, match.index) : contentAfterIntro
+  const afterHtml = match ? contentAfterIntro.slice(match.index + match[0].length) : ''
 
   return (
     <div className={cn("flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 mx-auto border border-neutral-200 dark:border-neutral-700 overflow-visible md:overflow-hidden min-h-screen md:h-screen")}>
@@ -114,20 +126,42 @@ export default async function DialoguePage({ params }: DialoguePageProps) {
                   </header>
 
                   {/* Dialogue Content */}
-                  <article id="article-root"
-                    className="prose prose-neutral dark:prose-invert prose-lg max-w-prose
-                      prose-headings:scroll-mt-8 prose-headings:font-bold
-                      prose-h1:text-3xl prose-h1:mb-8
-                      prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6
-                      prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4
-                      prose-p:leading-relaxed prose-p:text-neutral-700 dark:prose-p:text-neutral-300
-                      prose-blockquote:border-l-4 prose-blockquote:border-purple-500 prose-blockquote:bg-purple-50 dark:prose-blockquote:bg-purple-950/30 prose-blockquote:py-2 prose-blockquote:px-4
-                      prose-strong:text-neutral-900 dark:prose-strong:text-neutral-100
-                      prose-a:text-purple-600 dark:prose-a:text-purple-400 prose-a:no-underline hover:prose-a:underline"
-                    dangerouslySetInnerHTML={{ __html: cleanContent }}
-                  />
+                  {/* Intro paragraph/question */}
+                  {introHtml && (
+                    <article
+                      className="prose prose-neutral dark:prose-invert prose-lg max-w-prose prose-p:leading-relaxed prose-p:text-neutral-700 dark:prose-p:text-neutral-300"
+                      dangerouslySetInnerHTML={{ __html: introHtml }}
+                    />
+                  )}
 
-                  {/* Continue Exploration Section */}
+                  {/* Decorative separator under the intro to start the Dialogue */}
+                  <div className="my-8 flex items-center">
+                    <div className="h-px flex-1 bg-gradient-to-r from-transparent via-purple-300 to-transparent dark:via-purple-700" />
+                    <span className="mx-3 text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400">Their Dialogue</span>
+                    <div className="h-px flex-1 bg-gradient-to-r from-transparent via-blue-300 to-transparent dark:via-blue-700" />
+                  </div>
+
+                  {/* Dialogue body */}
+                  <article id="article-root"
+                    className="prose prose-neutral dark:prose-invert prose-lg max-w-prose prose-headings:scroll-mt-8 prose-headings:font-bold prose-h1:text-3xl prose-h1:mb-8 prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4 prose-p:leading-relaxed prose-p:text-neutral-700 dark:prose-p:text-neutral-300 prose-blockquote:border-l-4 prose-blockquote:border-purple-500 prose-blockquote:bg-purple-50 dark:prose-blockquote:bg-purple-950/30 prose-blockquote:py-2 prose-blockquote:px-4 prose-strong:text-neutral-900 dark:prose-strong:text-neutral-100 prose-a:text-purple-600 dark:prose-a:text-purple-400 prose-a:no-underline hover:prose-a:underline"
+                    dangerouslySetInnerHTML={{ __html: beforeHtml }}
+                  />
+                  {match && (
+                    <>
+                      {/* Decorative separator leading into Our Conclusion */}
+                      <div className="my-12 flex items-center">
+                        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-purple-300 to-transparent dark:via-purple-700" />
+                        <span className="mx-3 text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400">Our Conclusion</span>
+                        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-blue-300 to-transparent dark:via-blue-700" />
+                      </div>
+                      <article
+                        className="prose prose-neutral dark:prose-invert prose-lg max-w-prose prose-headings:scroll-mt-8 prose-headings:font-bold prose-h1:text-3xl prose-h1:mb-8 prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4 prose-p:leading-relaxed prose-p:text-neutral-700 dark:prose-p:text-neutral-300 prose-blockquote:border-l-4 prose-blockquote:border-purple-500 prose-blockquote:bg-purple-50 dark:prose-blockquote:bg-purple-950/30 prose-blockquote:py-2 prose-blockquote:px-4 prose-strong:text-neutral-900 dark:prose-strong:text-neutral-100 prose-a:text-purple-600 dark:prose-a:text-purple-400 prose-a:no-underline hover:prose-a:underline"
+                        dangerouslySetInnerHTML={{ __html: afterHtml }}
+                      />
+                    </>
+                  )}
+
+                  {/* Continue Exploration Section (bottom card) */}
                   <div className="mt-16 p-6 bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-950/30 dark:to-blue-950/30 rounded-xl border border-purple-200 dark:border-purple-800">
                     <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-4">
                       Continue the Exploration...
@@ -141,27 +175,13 @@ export default async function DialoguePage({ params }: DialoguePageProps) {
                       </Link>
                     </div>
                   </div>
-
-                  {/* Source Information */}
-                  {article.frontmatter.source_run_id && (
-                    <div className="mt-8 pt-8 border-t border-neutral-200 dark:border-neutral-700">
-                      <div className="text-xs text-neutral-500 dark:text-neutral-500">
-                        <strong>Source:</strong> Adapted from Cybernetic Governance dialogue, Run {article.frontmatter.source_run_id}
-                        {article.frontmatter.source_files && (
-                          <div className="mt-1">
-                            <strong>Generated from:</strong> {article.frontmatter.source_files.join(', ')}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
                 </div>
               </TracingBeam>
             </div>
 
-            {/* Right Sidebar - Table of Contents with highlight + smooth scroll */}
+            {/* Right Sidebar - TOC with highlight & LLM Export */}
             <div className="hidden xl:block">
-              <Toc contentHtml={cleanContent} title={article.frontmatter.title} />
+              <Toc contentHtml={contentAfterIntro} title={article.frontmatter.title} />
             </div>
           </div>
         </div>
