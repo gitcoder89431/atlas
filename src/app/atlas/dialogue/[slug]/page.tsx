@@ -4,6 +4,7 @@ import { TracingBeam } from '@/components/ui/tracing-beam'
 import { cn } from '@/lib/utils'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import { Toc } from '@/components/ui/toc'
 import { ArrowLeft, Clock, Tag, Users, Calendar, Share2 } from 'lucide-react'
 
 interface DialoguePageProps {
@@ -34,10 +35,10 @@ export default async function DialoguePage({ params }: DialoguePageProps) {
   const cleanContent = article.content.replace(/<h[2-3][^>]*>\s*Continue the Exploration\.\.\.\s*<\/h[2-3]>[\s\S]*$/i, '')
 
   return (
-    <div className={cn("flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 mx-auto border border-neutral-200 dark:border-neutral-700 overflow-hidden h-screen")}>
+    <div className={cn("flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 mx-auto border border-neutral-200 dark:border-neutral-700 overflow-visible md:overflow-hidden min-h-screen md:h-screen")}>
       <AppSidebar />
       <div className="flex flex-1">
-        <div id="scroll-container" className="p-2 md:p-10 rounded-tl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex flex-col gap-2 flex-1 w-full h-full overflow-y-auto">
+        <div id="scroll-container" className="p-2 md:p-10 rounded-tl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex flex-col gap-2 flex-1 w-full md:h-full h-auto md:overflow-y-auto overflow-visible">
           <div className="flex gap-8 max-w-7xl mx-auto w-full">
             {/* Main Content */}
             <div className="flex-1 min-w-0">
@@ -158,7 +159,10 @@ export default async function DialoguePage({ params }: DialoguePageProps) {
               </TracingBeam>
             </div>
 
-            {/* Right Sidebar removed */}
+            {/* Right Sidebar - Table of Contents with highlight + smooth scroll */}
+            <div className="hidden xl:block">
+              <Toc contentHtml={cleanContent} title={article.frontmatter.title} />
+            </div>
           </div>
         </div>
       </div>

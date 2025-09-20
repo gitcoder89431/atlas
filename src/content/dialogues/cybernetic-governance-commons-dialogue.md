@@ -1,5 +1,5 @@
 ---
-title: "Cybernetic Governance of the Commons: A Dialogue"
+title: "Cybernetic Governance of the Commons"
 date: "2024-09-20"
 tags: ["governance", "cybernetics", "commons", "institutional-design"]
 summary: "A conversation between Elinor Ostrom and Norbert Wiener on balancing transparency and autonomy in institutional design"
