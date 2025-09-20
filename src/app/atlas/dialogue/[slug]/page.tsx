@@ -175,6 +175,20 @@ export default async function DialoguePage({ params }: DialoguePageProps) {
                       </Link>
                     </div>
                   </div>
+
+                  {/* Source Information */}
+                  {article.frontmatter.source_run_id && (
+                    <div className="mt-8 pt-8 border-t border-neutral-200 dark:border-neutral-700">
+                      <div className="text-xs text-neutral-500 dark:text-neutral-500">
+                        <strong>Keywords:</strong> {article.frontmatter.tags?.join(', ')}
+                        {article.frontmatter.source_files && (
+                          <div className="mt-1">
+                            <strong>Source:</strong> Adapted from Cybernetic Governance dialogue, Run {article.frontmatter.source_run_id}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </TracingBeam>
             </div>
