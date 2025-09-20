@@ -6,7 +6,13 @@ import html from 'remark-html'
 import remarkGfm from 'remark-gfm'
 import remarkSlug from 'remark-slug'
 
-const contentDirectory = path.join(process.cwd(), 'src/content')
+function getContentRoot(): string {
+  const a = path.join(process.cwd(), 'src/content')
+  if (fs.existsSync(a)) return a
+  const b = path.join(process.cwd(), 'content')
+  return fs.existsSync(b) ? b : a
+}
+const contentDirectory = getContentRoot()
 
 export interface ArticleFrontmatter {
   title: string
@@ -29,46 +35,50 @@ export interface Article {
   slug: string
 }
 
-export async function getArticleBySlug(slug: string): Promise<Article | null> {
-  try {
-    const fullPath = path.join(contentDirectory, 'posts', `${slug}.md`)
-    const fileContents = fs.readFileSync(fullPath, 'utf8')
-    const { data, content } = matter(fileContents)
-
-    const processedContent = await remark()
-      .use(remarkGfm)
-      .use(remarkSlug)
-      .use(html)
-      .process(content)
-
-    return {
-      frontmatter: { ...data, slug } as ArticleFrontmatter,
-      content: processedContent.toString(),
-      slug
-    }
-  } catch (error) {
-    return null
+async function getFromDir(dir: 'posts'|'monologues'|'dialogues', slug: string): Promise<Article | null> {
+  const fullPath = path.join(contentDirectory, dir, `${slug}.md`)
+  if (!fs.existsSync(fullPath)) return null
+  const fileContents = fs.readFileSync(fullPath, 'utf8')
+  const { data, content } = matter(fileContents)
+  const processedContent = await remark()
+    .use(remarkGfm)
+    .use(remarkSlug)
+    .use(html)
+    .process(content)
+  const typeDefault = dir === 'posts' ? 'monologue' : (dir.slice(0, -1) as ArticleFrontmatter['type'])
+  const fm = { type: typeDefault, tier: 'free', ...data, slug } as ArticleFrontmatter
+  return {
+    frontmatter: fm,
+    content: processedContent.toString(),
+    slug,
   }
+}
+
+export async function getArticleBySlug(slug: string): Promise<Article | null> {
+  // Try posts, then monologues, then dialogues
+  const dirs: ('posts'|'monologues'|'dialogues')[] = ['posts','monologues','dialogues']
+  for (const d of dirs) {
+    const art = await getFromDir(d, slug)
+    if (art) return art
+  }
+  return null
 }
 
 export async function getAllArticles(): Promise<Article[]> {
   try {
-    const postsDirectory = path.join(contentDirectory, 'posts')
-
-    if (!fs.existsSync(postsDirectory)) {
-      return []
+    const dirs: ('posts'|'monologues'|'dialogues')[] = ['posts','monologues','dialogues']
+    const gathered: Article[] = [] as any
+    for (const d of dirs) {
+      const dirPath = path.join(contentDirectory, d)
+      if (!fs.existsSync(dirPath)) continue
+      const fileNames = fs.readdirSync(dirPath).filter(n => n.endsWith('.md'))
+      for (const name of fileNames) {
+        const slug = name.replace(/\.md$/, '')
+        const art = await getFromDir(d, slug)
+        if (art) gathered.push(art)
+      }
     }
-
-    const fileNames = fs.readdirSync(postsDirectory)
-    const allArticles = await Promise.all(
-      fileNames
-        .filter(name => name.endsWith('.md'))
-        .map(async (name) => {
-          const slug = name.replace(/\.md$/, '')
-          return await getArticleBySlug(slug)
-        })
-    )
-
+    const allArticles = gathered
     return allArticles
       .filter((article): article is Article => article !== null)
       .sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime())
@@ -80,4 +90,12 @@ export async function getAllArticles(): Promise<Article[]> {
 export async function getArticlesByType(type: ArticleFrontmatter['type']): Promise<Article[]> {
   const allArticles = await getAllArticles()
   return allArticles.filter(article => article.frontmatter.type === type)
+}
+
+export async function getAllDialogues(): Promise<Article[]> {
+  return getArticlesByType('dialogue')
+}
+
+export async function getAllMonologues(): Promise<Article[]> {
+  return getArticlesByType('monologue')
 }

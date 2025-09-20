@@ -4,7 +4,7 @@ import { TracingBeam } from '@/components/ui/tracing-beam'
 import { cn } from '@/lib/utils'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, Clock, Tag, Users, Calendar, Share2, MessageSquare } from 'lucide-react'
+import { ArrowLeft, Clock, Tag, Users, Calendar, Share2 } from 'lucide-react'
 
 interface DialoguePageProps {
   params: {
@@ -20,39 +20,7 @@ export async function generateStaticParams() {
   }))
 }
 
-function TableOfContents({ content }: { content: string }) {
-  const headings = content.match(/<h[2-3][^>]*>(.*?)<\/h[2-3]>/g) || []
-  const tocItems = headings.map((heading, index) => {
-    const level = heading.match(/<h([2-3])/)?.[1]
-    const text = heading.replace(/<[^>]*>/g, '')
-    const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-')
-    return { level: parseInt(level || '2'), text, id, index }
-  })
-
-  if (tocItems.length === 0) return null
-
-  return (
-    <div className="sticky top-8 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-700 rounded-lg p-4 w-64 shrink-0">
-      <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-3 text-sm">
-        On this page
-      </h3>
-      <nav className="space-y-2">
-        {tocItems.map((item) => (
-          <a
-            key={item.index}
-            href={`#${item.id}`}
-            className={cn(
-              "block text-sm hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors",
-              item.level === 2 ? "text-neutral-700 dark:text-neutral-300" : "text-neutral-500 dark:text-neutral-500 ml-4"
-            )}
-          >
-            {item.text}
-          </a>
-        ))}
-      </nav>
-    </div>
-  )
-}
+// TOC moved to client component '@/components/ui/toc'
 
 export default async function DialoguePage({ params }: DialoguePageProps) {
   const article = await getArticleBySlug(params.slug)
@@ -62,12 +30,14 @@ export default async function DialoguePage({ params }: DialoguePageProps) {
   }
 
   const readingTime = Math.ceil(article.content.replace(/<[^>]*>/g, '').split(' ').length / 200)
+  // Strip any in-markdown "Continue the Exploration..." section to avoid duplicate blocks
+  const cleanContent = article.content.replace(/<h[2-3][^>]*>\s*Continue the Exploration\.\.\.\s*<\/h[2-3]>[\s\S]*$/i, '')
 
   return (
     <div className={cn("flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 mx-auto border border-neutral-200 dark:border-neutral-700 overflow-hidden h-screen")}>
       <AppSidebar />
       <div className="flex flex-1">
-        <div className="p-2 md:p-10 rounded-tl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex flex-col gap-2 flex-1 w-full h-full overflow-y-auto">
+        <div id="scroll-container" className="p-2 md:p-10 rounded-tl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex flex-col gap-2 flex-1 w-full h-full overflow-y-auto">
           <div className="flex gap-8 max-w-7xl mx-auto w-full">
             {/* Main Content */}
             <div className="flex-1 min-w-0">
@@ -84,12 +54,6 @@ export default async function DialoguePage({ params }: DialoguePageProps) {
 
                   {/* Dialogue Header */}
                   <header className="mb-12">
-                    <div className="mb-6">
-                      <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400 mb-4">
-                        <MessageSquare className="w-3 h-3" />
-                        {article.frontmatter.type}
-                      </span>
-                    </div>
 
                     <h1 className="text-4xl md:text-5xl font-bold text-neutral-900 dark:text-neutral-100 mb-6 leading-tight">
                       {article.frontmatter.title}
@@ -149,7 +113,7 @@ export default async function DialoguePage({ params }: DialoguePageProps) {
                   </header>
 
                   {/* Dialogue Content */}
-                  <article
+                  <article id="article-root"
                     className="prose prose-neutral dark:prose-invert prose-lg max-w-prose
                       prose-headings:scroll-mt-8 prose-headings:font-bold
                       prose-h1:text-3xl prose-h1:mb-8
@@ -159,7 +123,7 @@ export default async function DialoguePage({ params }: DialoguePageProps) {
                       prose-blockquote:border-l-4 prose-blockquote:border-purple-500 prose-blockquote:bg-purple-50 dark:prose-blockquote:bg-purple-950/30 prose-blockquote:py-2 prose-blockquote:px-4
                       prose-strong:text-neutral-900 dark:prose-strong:text-neutral-100
                       prose-a:text-purple-600 dark:prose-a:text-purple-400 prose-a:no-underline hover:prose-a:underline"
-                    dangerouslySetInnerHTML={{ __html: article.content }}
+                    dangerouslySetInnerHTML={{ __html: cleanContent }}
                   />
 
                   {/* Continue Exploration Section */}
@@ -194,10 +158,7 @@ export default async function DialoguePage({ params }: DialoguePageProps) {
               </TracingBeam>
             </div>
 
-            {/* Right Sidebar - Table of Contents */}
-            <div className="hidden xl:block">
-              <TableOfContents content={article.content} />
-            </div>
+            {/* Right Sidebar removed */}
           </div>
         </div>
       </div>

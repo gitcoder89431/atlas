@@ -12,6 +12,7 @@
     "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "@tabler/icons-react": "^3.35.0",
+    "@tailwindcss/typography": "^0.5.18",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.16",
     "gray-matter": "^4.0.3",
