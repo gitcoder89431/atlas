@@ -1,5 +1,4 @@
 interface PersonaBadgeProps {
-  videoSrc: string
   imageSrc: string
   size?: 'sm' | 'md' | 'lg' | 'xl'
   className?: string
@@ -13,7 +12,6 @@ const sizeClasses = {
 }
 
 export function PersonaBadge({
-  videoSrc,
   imageSrc,
   size = 'sm',
   className = ''
@@ -23,7 +21,7 @@ export function PersonaBadge({
       <img
         className="w-full h-full object-cover"
         src={imageSrc}
-        alt=""
+        alt="Persona avatar"
       />
     </div>
   )

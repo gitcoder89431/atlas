@@ -4,20 +4,24 @@ import { useState, useEffect } from 'react'
 import { AppSidebar } from '@/components/app-sidebar'
 import { cn } from '@/lib/utils'
 import { PersonaBadge } from '@/components/persona-badge'
-import { Calendar, Clock, Tag } from 'lucide-react'
+import { Clock, Tag } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { personaMap } from '@/data/personas'
 
-// Extract individual authors from collaborative works
-function extractMainAuthor(authorString: string): string {
-  if (authorString.includes('&')) {
-    return authorString.split('&')[0].trim()
-  }
-  return authorString
-}
 
 export default function AtlasPage() {
-  const [articles, setArticles] = useState<any[]>([])
+  const [articles, setArticles] = useState<Array<{
+    slug: string
+    content: string
+    frontmatter: {
+      title: string
+      author?: string
+      date: string
+      tags?: string[]
+      type: 'monologue' | 'dialogue'
+      summary?: string
+    }
+  }>>([])
   const [loading, setLoading] = useState(true)
   const router = useRouter()
 
@@ -78,7 +82,7 @@ export default function AtlasPage() {
                 {articles.map((article) => {
                   const readingTime = Math.ceil(article.content.replace(/<[^>]*>/g, '').split(' ').length / 200)
                   const authorString = article.frontmatter.author || 'Unknown'
-                  const authors = authorString.includes('&') ? authorString.split('&').map(a => a.trim()) : [authorString]
+                  const authors = authorString.includes('&') ? authorString.split('&').map((a: string) => a.trim()) : [authorString]
                   const mainAuthor = authors[0]
                   const persona = personaMap[mainAuthor]
                   const href = article.frontmatter.type === 'dialogue'
@@ -100,13 +104,12 @@ export default function AtlasPage() {
                       <div className="flex items-center gap-3 mb-3 md:mb-4">
                         {authors.length > 1 ? (
                           <div className="flex -space-x-2">
-                            {authors.slice(0, 2).map((author, index) => {
+                            {authors.slice(0, 2).map((author: string, index: number) => {
                               const authorPersona = personaMap[author]
                               return (
                                 <div key={index} className={index > 0 ? 'ml-1' : ''}>
                                   {authorPersona ? (
                                     <PersonaBadge
-                                      videoSrc={authorPersona.videoSrc}
                                       imageSrc={authorPersona.imageSrc}
                                       size="md"
                                     />
@@ -120,7 +123,6 @@ export default function AtlasPage() {
                         ) : (
                           persona ? (
                             <PersonaBadge
-                              videoSrc={persona.videoSrc}
                               imageSrc={persona.imageSrc}
                               size="md"
                             />

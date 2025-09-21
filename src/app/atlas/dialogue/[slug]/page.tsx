@@ -197,7 +197,6 @@ export default async function DialoguePage({ params }: DialoguePageProps) {
             <div className="hidden xl:block">
               <Toc
                 contentHtml={beforeHtml}
-                title={article.frontmatter.title}
                 author={article.frontmatter.author}
                 offset={250}
               />

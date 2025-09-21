@@ -42,6 +42,7 @@ async function getFromDir(dir: 'posts'|'monologues'|'dialogues', slug: string): 
   const { data, content } = matter(fileContents)
   const processedContent = await remark()
     .use(remarkGfm)
+    // @ts-expect-error - Type conflict between unified versions
     .use(remarkSlug)
     .use(html)
     .process(content)
@@ -67,7 +68,7 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
 export async function getAllArticles(): Promise<Article[]> {
   try {
     const dirs: ('posts'|'monologues'|'dialogues')[] = ['posts','monologues','dialogues']
-    const gathered: Article[] = [] as any
+    const gathered: Article[] = []
     for (const d of dirs) {
       const dirPath = path.join(contentDirectory, d)
       if (!fs.existsSync(dirPath)) continue
@@ -82,7 +83,7 @@ export async function getAllArticles(): Promise<Article[]> {
     return allArticles
       .filter((article): article is Article => article !== null)
       .sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime())
-  } catch (error) {
+  } catch {
     return []
   }
 }

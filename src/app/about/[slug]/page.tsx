@@ -177,7 +177,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
             {/* Right Sidebar - TOC with highlight & LLM Export */}
             <div className="hidden xl:block">
-              <Toc contentHtml={contentAfterIntro} title={article.frontmatter.title} />
+              <Toc contentHtml={contentAfterIntro} />
             </div>
           </div>
         </div>

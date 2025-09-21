@@ -194,7 +194,6 @@ export default async function MonologuePage({ params }: PageProps) {
             <div className="hidden xl:block">
               <Toc
                 contentHtml={beforeHtml}
-                title={article.frontmatter.title}
                 author={article.frontmatter.author}
               />
             </div>

@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-import { Calendar, Clock, Tag, Award, BookOpen, Users } from 'lucide-react'
+import { Calendar, Tag, Award, BookOpen, Users } from 'lucide-react'
 import { getFeaturedPersonas, type Persona } from '@/data/personas'
 
 // Get featured personas for public display
@@ -174,7 +174,7 @@ export default function AgencyPage() {
                   <div className="space-y-3">
                     {selectedPersona.famousQuotes.map((quote, index) => (
                       <blockquote key={index} className="border-l-4 border-blue-500 pl-4 italic text-neutral-700 dark:text-neutral-300">
-                        "{quote}"
+                        &ldquo;{quote}&rdquo;
                       </blockquote>
                     ))}
                   </div>

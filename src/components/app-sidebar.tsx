@@ -5,10 +5,7 @@ import { cn } from "@/lib/utils"
 import { Sidebar, SidebarBody } from "@/components/ui/sidebar"
 import {
   Home,
-  FileText,
   BookOpen,
-  MessageSquare,
-  Scroll,
   Users,
   Info,
   Search,

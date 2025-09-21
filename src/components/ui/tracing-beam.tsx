@@ -13,7 +13,7 @@ export const TracingBeam = ({
   const ref = useRef<HTMLDivElement>(null);
   // Track scroll progress within the nearest scrollable container (fallback to window)
   const scrollYProgress = useMotionValue(0);
-  const [containerEl, setContainerEl] = useState<HTMLElement | null>(null);
+  const [, setContainerEl] = useState<HTMLElement | null>(null);
   useEffect(() => {
     // Find nearest scrollable ancestor (overflow-y: auto|scroll) or fallback to documentElement
     let el: HTMLElement | null = ref.current || null;
@@ -34,22 +34,22 @@ export const TracingBeam = ({
 
     const handler = () => {
       const c = container as HTMLElement;
-      const scrollTop = (c as any).scrollTop ?? window.scrollY;
-      const scrollHeight = (c as any).scrollHeight ?? document.documentElement.scrollHeight;
-      const clientHeight = (c as any).clientHeight ?? window.innerHeight;
+      const scrollTop = c.scrollTop ?? window.scrollY;
+      const scrollHeight = c.scrollHeight ?? document.documentElement.scrollHeight;
+      const clientHeight = c.clientHeight ?? window.innerHeight;
       const denom = Math.max(1, scrollHeight - clientHeight);
       const p = Math.min(1, Math.max(0, scrollTop / denom));
       scrollYProgress.set(p);
     };
 
     handler();
-    container.addEventListener("scroll", handler, { passive: true } as any);
+    container.addEventListener("scroll", handler, { passive: true });
     window.addEventListener("resize", handler);
     return () => {
-      container.removeEventListener("scroll", handler as any);
+      container.removeEventListener("scroll", handler);
       window.removeEventListener("resize", handler);
     };
-  }, []);
+  }, [scrollYProgress]);
 
   const contentRef = useRef<HTMLDivElement>(null);
   const [svgHeight, setSvgHeight] = useState(0);

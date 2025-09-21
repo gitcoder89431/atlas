@@ -6,14 +6,12 @@ import { getPersonaByName } from "@/data/personas";
 
 export function Toc({
   contentHtml,
-  title,
   author,
   scrollContainerId = "scroll-container",
   articleRootId = "article-root",
   offset = 200,
 }: {
   contentHtml: string;
-  title?: string;
   author?: string;
   scrollContainerId?: string;
   articleRootId?: string;
@@ -53,11 +51,11 @@ export function Toc({
     );
     headings.forEach((h) => obs.observe(h));
     const onScroll = () => setScrolled((container.scrollTop ?? 0) > 8);
-    container.addEventListener("scroll", onScroll, { passive: true } as any);
+    container.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
     return () => {
       obs.disconnect();
-      container.removeEventListener("scroll", onScroll as any);
+      container.removeEventListener("scroll", onScroll);
     };
   }, [contentHtml, scrollContainerId, articleRootId]);
 
@@ -90,7 +88,9 @@ export function Toc({
              style={{ maxHeight: "calc(100vh - 10rem)" }}>
           {items.map((item) => (
             <a
-              ref={(el) => (linkRefs.current[item.id] = el)}
+              ref={(el) => {
+                linkRefs.current[item.id] = el
+              }}
               key={item.idx}
               href={`#${item.id}`}
               onClick={onClick(item.id)}
@@ -124,7 +124,6 @@ export function Toc({
                 return (
                   <div key={index} className="flex gap-3 items-center">
                     <PersonaBadge
-                      videoSrc={persona.videoSrc}
                       imageSrc={persona.imageSrc}
                       size="md"
                     />
