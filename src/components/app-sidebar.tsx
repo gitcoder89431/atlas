@@ -11,6 +11,7 @@ import {
   Scroll,
   Users,
   Info,
+  Search,
 } from "lucide-react"
 
 const links = [
@@ -28,6 +29,11 @@ const links = [
     label: "Atlas",
     href: "/atlas",
     icon: <BookOpen className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />,
+  },
+  {
+    label: "Explore",
+    href: "/explore",
+    icon: <Search className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />,
   },
   {
     label: "About",
