@@ -20,16 +20,11 @@ export function PersonaBadge({
 }: PersonaBadgeProps) {
   return (
     <div className={`relative ${sizeClasses[size]} overflow-hidden border border-neutral-200 dark:border-neutral-700 flex-shrink-0 ${className}`}>
-      <video
+      <img
         className="w-full h-full object-cover"
-        autoPlay
-        loop
-        muted
-        playsInline
-        poster={imageSrc}
-      >
-        <source src={videoSrc} type="video/mp4" />
-      </video>
+        src={imageSrc}
+        alt=""
+      />
     </div>
   )
 }
