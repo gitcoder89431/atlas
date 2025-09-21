@@ -1,3 +1,6 @@
+'use client'
+
+import { useState, useEffect } from 'react'
 import { AppSidebar } from '@/components/app-sidebar'
 import { cn } from '@/lib/utils'
 import {
@@ -8,40 +11,60 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Search, Filter, Calendar, Clock, Tag, User, Users } from 'lucide-react'
+import { PersonaBadge } from '@/components/persona-badge'
+import { Search, Filter, Calendar, Clock, Tag } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
-const demoData = [
-  {
-    id: "1",
-    title: "A Treatise on Consciousness Adaptation",
-    author: "Richard Feynman",
-    type: "monologue",
-    date: "2024-09-20",
-    readingTime: "8 min",
-    tags: ["consciousness", "physics", "adaptation"]
+// Persona mapping for author attribution
+const personaMap: Record<string, { videoSrc: string; imageSrc: string }> = {
+  "Richard Feynman": {
+    videoSrc: "/video/portraits/richard_feynman_v01_hq.mp4",
+    imageSrc: "/images/portraits/richard_feynman_s01_hq.jpg"
   },
-  {
-    id: "2",
-    title: "Cybernetic Governance of the Commons",
-    author: "Elinor Ostrom & Norbert Wiener",
-    type: "dialogue",
-    date: "2024-09-20",
-    readingTime: "12 min",
-    tags: ["governance", "cybernetics", "commons"]
+  "Elinor Ostrom": {
+    videoSrc: "/video/portraits/elinor_ostrom_v01_optimized.mp4",
+    imageSrc: "/images/portraits/elinor_ostrom_s01_optimized.jpg"
   },
-  // Add more demo entries...
-  ...Array.from({ length: 15 }, (_, i) => ({
-    id: `${i + 3}`,
-    title: `Sample Article ${i + 3}`,
-    author: `Author ${i + 3}`,
-    type: i % 2 === 0 ? "monologue" : "dialogue",
-    date: "2024-09-20",
-    readingTime: `${Math.floor(Math.random() * 20) + 5} min`,
-    tags: ["sample", "demo", "placeholder"]
-  }))
-]
+  "Norbert Wiener": {
+    videoSrc: "/video/portraits/norbert_wiener_v01_optimized.mp4",
+    imageSrc: "/images/portraits/norbert_wiener_s01_optimized.jpg"
+  },
+  "Sun Tzu": {
+    videoSrc: "/video/portraits/sun_tzu_v01_optimized.mp4",
+    imageSrc: "/images/portraits/sun_tzu_s01_optimized.jpg"
+  }
+}
+
+// Extract individual authors from collaborative works
+function extractMainAuthor(authorString: string): string {
+  if (authorString.includes('&')) {
+    return authorString.split('&')[0].trim()
+  }
+  return authorString
+}
 
 export default function ExplorePage() {
+  const [articles, setArticles] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const router = useRouter()
+
+  useEffect(() => {
+    async function fetchArticles() {
+      try {
+        const response = await fetch('/api/articles')
+        if (!response.ok) {
+          throw new Error('Failed to fetch articles')
+        }
+        const articlesData = await response.json()
+        setArticles(articlesData)
+      } catch (error) {
+        console.error('Failed to fetch articles:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchArticles()
+  }, [])
   return (
     <div className={cn("flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 mx-auto border border-neutral-200 dark:border-neutral-700 overflow-visible md:overflow-hidden min-h-screen md:h-screen")}>
       <AppSidebar />
@@ -75,68 +98,83 @@ export default function ExplorePage() {
 
           {/* Table */}
           <div className="border border-neutral-200 dark:border-neutral-700 rounded-lg overflow-hidden bg-white dark:bg-neutral-800">
-            <Table>
+            {loading ? (
+              <div className="p-8 text-center">
+                <div className="text-neutral-500">Loading articles...</div>
+              </div>
+            ) : (
+              <Table>
               <TableHeader>
                 <TableRow className="border-b border-neutral-200 dark:border-neutral-700">
-                  <TableHead className="font-semibold text-neutral-900 dark:text-neutral-100">Title</TableHead>
                   <TableHead className="font-semibold text-neutral-900 dark:text-neutral-100">Author</TableHead>
+                  <TableHead className="font-semibold text-neutral-900 dark:text-neutral-100">Title</TableHead>
                   <TableHead className="font-semibold text-neutral-900 dark:text-neutral-100">Type</TableHead>
-                  <TableHead className="font-semibold text-neutral-900 dark:text-neutral-100">Date</TableHead>
-                  <TableHead className="font-semibold text-neutral-900 dark:text-neutral-100">Reading Time</TableHead>
                   <TableHead className="font-semibold text-neutral-900 dark:text-neutral-100">Tags</TableHead>
+                  <TableHead className="font-semibold text-neutral-900 dark:text-neutral-100">Date</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {demoData.map((item) => (
-                  <TableRow
-                    key={item.id}
-                    className="border-b border-neutral-100 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-700/50 cursor-pointer transition-colors"
-                  >
-                    <TableCell className="font-medium text-neutral-900 dark:text-neutral-100">
-                      {item.title}
-                    </TableCell>
-                    <TableCell className="text-neutral-700 dark:text-neutral-300">
-                      <div className="flex items-center gap-2">
-                        {item.type === "dialogue" ? (
-                          <Users className="h-3 w-3" />
-                        ) : (
-                          <User className="h-3 w-3" />
-                        )}
-                        {item.author}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <span className={cn(
-                        "px-2 py-1 text-xs font-medium rounded-full",
-                        item.type === "dialogue"
-                          ? "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300"
-                          : "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
-                      )}>
-                        {item.type}
-                      </span>
-                    </TableCell>
-                    <TableCell className="text-neutral-700 dark:text-neutral-300">
-                      <div className="flex items-center gap-2">
-                        <Calendar className="h-3 w-3" />
-                        {new Date(item.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-neutral-700 dark:text-neutral-300">
-                      <div className="flex items-center gap-2">
-                        <Clock className="h-3 w-3" />
-                        {item.readingTime}
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-neutral-700 dark:text-neutral-300">
-                      <div className="flex items-center gap-2">
-                        <Tag className="h-3 w-3" />
-                        <span className="truncate">{item.tags.slice(0, 2).join(', ')}</span>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                {articles.map((article) => {
+                  const readingTime = Math.ceil(article.content.replace(/<[^>]*>/g, '').split(' ').length / 200)
+                  const mainAuthor = extractMainAuthor(article.frontmatter.author || 'Unknown')
+                  const persona = personaMap[mainAuthor]
+                  const href = article.frontmatter.type === 'dialogue'
+                    ? `/atlas/dialogue/${article.slug}`
+                    : `/atlas/monologue/${article.slug}`
+
+                  return (
+                    <TableRow
+                      key={article.slug}
+                      onClick={() => router.push(href)}
+                      className="border-b border-neutral-100 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-700/50 cursor-pointer transition-colors"
+                    >
+                      <TableCell className="text-neutral-700 dark:text-neutral-300">
+                        <div className="flex items-center gap-3">
+                          {persona ? (
+                            <PersonaBadge
+                              videoSrc={persona.videoSrc}
+                              imageSrc={persona.imageSrc}
+                              size="sm"
+                            />
+                          ) : (
+                            <div className="w-6 h-6 rounded-full bg-neutral-200 dark:bg-neutral-700 flex-shrink-0" />
+                          )}
+                          <span className="truncate">{mainAuthor}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="font-medium text-neutral-900 dark:text-neutral-100">
+                        <span className="line-clamp-2">{article.frontmatter.title}</span>
+                      </TableCell>
+                      <TableCell>
+                        <span className={cn(
+                          "px-2 py-1 text-xs font-medium rounded-full",
+                          article.frontmatter.type === "dialogue"
+                            ? "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300"
+                            : "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
+                        )}>
+                          {article.frontmatter.type}
+                        </span>
+                      </TableCell>
+                      <TableCell className="text-neutral-700 dark:text-neutral-300">
+                        <div className="flex items-center gap-2">
+                          <Tag className="h-3 w-3" />
+                          <span className="truncate">
+                            {article.frontmatter.tags?.slice(0, 2).join(', ') || 'No tags'}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-neutral-700 dark:text-neutral-300">
+                        <div className="flex items-center gap-2">
+                          <Calendar className="h-3 w-3" />
+                          {new Date(article.frontmatter.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
               </TableBody>
             </Table>
+            )}
           </div>
 
           {/* Bottom padding */}
