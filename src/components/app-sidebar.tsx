@@ -9,6 +9,8 @@ import {
   BookOpen,
   MessageSquare,
   Scroll,
+  Users,
+  Info,
 } from "lucide-react"
 
 const links = [
@@ -18,9 +20,19 @@ const links = [
     icon: <Home className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />,
   },
   {
+    label: "Agency",
+    href: "/agency",
+    icon: <Users className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />,
+  },
+  {
     label: "Atlas",
     href: "/atlas",
     icon: <BookOpen className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />,
+  },
+  {
+    label: "About",
+    href: "/about",
+    icon: <Info className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />,
   },
 ]
 

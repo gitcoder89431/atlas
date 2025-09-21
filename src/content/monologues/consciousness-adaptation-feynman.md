@@ -38,14 +38,3 @@ What strikes me most profoundly is how these two domains—experimental universe
 The retrocausal invariants I observe in consciousness experiments mirror the affective regularization I see in emotional systems. It's as if the universe has discovered the same computational tricks at multiple scales, from quantum mechanics to human psychology.
 
 **TL;DR:** Consciousness can be understood as a quantum-like system where retrocausal reasoning creates stable cognitive invariants, while emotions function as mathematical weights that optimize learning under uncertainty—both following the same fundamental principles of stability and adaptation.
-
-## Continue the Exploration...
-
-- [Collaborative Reality Mathematics](/atlas/collaborative-reality-mathematics)
-- [Identity Fractals at the Mortality Boundary](/atlas/identity-fractals-mortality)
-- [Affective Weights in Inference Under Uncertainty](/atlas/affective-inference-weights)
-
----
-
-**Keywords:** consciousness, retrocausal reasoning, predictive coding, affective weights, quantum cognition, system stability
-**Source:** Adapted from Trinity dialogue series, Run 20240920T120000Z
