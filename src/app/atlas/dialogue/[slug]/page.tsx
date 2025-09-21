@@ -40,11 +40,11 @@ export default async function DialoguePage({ params }: DialoguePageProps) {
   const firstSection = /<h[2-3][^>]*>/i.exec(withoutInlineContinue)
   const introHtml = firstSection ? withoutInlineContinue.slice(0, firstSection.index) : ''
   const contentAfterIntro = firstSection ? withoutInlineContinue.slice(firstSection.index) : withoutInlineContinue
-  // Split contentAfterIntro at "Our Conclusion" or "Moderator's Summary" to insert a visual separator before the conclusion
-  const conclusionRegex = /<h[2-3][^>]*>\s*(Our Conclusion|Moderator's Summary)\s*<\/h[2-3]>/i
-  const match = conclusionRegex.exec(contentAfterIntro)
+  // Split contentAfterIntro at "TL;DR" to insert a visual separator before the summary
+  const tldrRegex = /<(?:strong|b)[^>]*>\s*(TL;DR|TLDR|Summary)\s*:?\s*<\/(?:strong|b)>/i
+  const match = tldrRegex.exec(contentAfterIntro)
   const beforeHtml = match ? contentAfterIntro.slice(0, match.index) : contentAfterIntro
-  const afterHtml = match ? contentAfterIntro.slice(match.index + match[0].length) : ''
+  const afterHtml = match ? contentAfterIntro.slice(match.index) : ''
 
   return (
     <div className={cn("flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 mx-auto border border-neutral-200 dark:border-neutral-700 overflow-visible md:overflow-hidden min-h-screen md:h-screen")}>
@@ -148,10 +148,10 @@ export default async function DialoguePage({ params }: DialoguePageProps) {
                   />
                   {match && (
                     <>
-                      {/* Decorative separator leading into Our Conclusion */}
+                      {/* Decorative separator leading into TL;DR */}
                       <div className="my-12 flex items-center">
                         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-purple-300 to-transparent dark:via-purple-700" />
-                        <span className="mx-3 text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400">Our Conclusion</span>
+                        <span className="mx-3 text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400">TL;DR</span>
                         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-blue-300 to-transparent dark:via-blue-700" />
                       </div>
                       <article
@@ -195,7 +195,12 @@ export default async function DialoguePage({ params }: DialoguePageProps) {
 
             {/* Right Sidebar - TOC with highlight & LLM Export */}
             <div className="hidden xl:block">
-              <Toc contentHtml={contentAfterIntro} title={article.frontmatter.title} />
+              <Toc
+                contentHtml={beforeHtml}
+                title={article.frontmatter.title}
+                author={article.frontmatter.author}
+                offset={250}
+              />
             </div>
           </div>
         </div>

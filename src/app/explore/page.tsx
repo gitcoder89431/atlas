@@ -14,26 +14,7 @@ import {
 import { PersonaBadge } from '@/components/persona-badge'
 import { Search, Filter, Calendar, Clock, Tag } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-
-// Persona mapping for author attribution
-const personaMap: Record<string, { videoSrc: string; imageSrc: string }> = {
-  "Richard Feynman": {
-    videoSrc: "/video/portraits/richard_feynman_v01_hq.mp4",
-    imageSrc: "/images/portraits/richard_feynman_s01_hq.jpg"
-  },
-  "Elinor Ostrom": {
-    videoSrc: "/video/portraits/elinor_ostrom_v01_optimized.mp4",
-    imageSrc: "/images/portraits/elinor_ostrom_s01_optimized.jpg"
-  },
-  "Norbert Wiener": {
-    videoSrc: "/video/portraits/norbert_wiener_v01_optimized.mp4",
-    imageSrc: "/images/portraits/norbert_wiener_s01_optimized.jpg"
-  },
-  "Sun Tzu": {
-    videoSrc: "/video/portraits/sun_tzu_v01_optimized.mp4",
-    imageSrc: "/images/portraits/sun_tzu_s01_optimized.jpg"
-  }
-}
+import { personaMap } from '@/data/personas'
 
 // Extract individual authors from collaborative works
 function extractMainAuthor(authorString: string): string {
@@ -106,17 +87,19 @@ export default function ExplorePage() {
               <Table>
               <TableHeader>
                 <TableRow className="border-b border-neutral-200 dark:border-neutral-700">
-                  <TableHead className="font-semibold text-neutral-900 dark:text-neutral-100">Author</TableHead>
                   <TableHead className="font-semibold text-neutral-900 dark:text-neutral-100">Title</TableHead>
-                  <TableHead className="font-semibold text-neutral-900 dark:text-neutral-100">Type</TableHead>
-                  <TableHead className="font-semibold text-neutral-900 dark:text-neutral-100">Tags</TableHead>
+                  <TableHead className="font-semibold text-neutral-900 dark:text-neutral-100">Author(s)</TableHead>
+                  <TableHead className="font-semibold text-neutral-900 dark:text-neutral-100 hidden md:table-cell">Tags</TableHead>
+                  <TableHead className="font-semibold text-neutral-900 dark:text-neutral-100 hidden lg:table-cell">Read Time</TableHead>
                   <TableHead className="font-semibold text-neutral-900 dark:text-neutral-100">Date</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {articles.map((article) => {
                   const readingTime = Math.ceil(article.content.replace(/<[^>]*>/g, '').split(' ').length / 200)
-                  const mainAuthor = extractMainAuthor(article.frontmatter.author || 'Unknown')
+                  const authorString = article.frontmatter.author || 'Unknown'
+                  const authors = authorString.includes('&') ? authorString.split('&').map(a => a.trim()) : [authorString]
+                  const mainAuthor = authors[0]
                   const persona = personaMap[mainAuthor]
                   const href = article.frontmatter.type === 'dialogue'
                     ? `/atlas/dialogue/${article.slug}`
@@ -128,39 +111,57 @@ export default function ExplorePage() {
                       onClick={() => router.push(href)}
                       className="border-b border-neutral-100 dark:border-neutral-700 hover:bg-neutral-50 dark:hover:bg-neutral-700/50 cursor-pointer transition-colors"
                     >
-                      <TableCell className="text-neutral-700 dark:text-neutral-300">
-                        <div className="flex items-center gap-3">
-                          {persona ? (
-                            <PersonaBadge
-                              videoSrc={persona.videoSrc}
-                              imageSrc={persona.imageSrc}
-                              size="sm"
-                            />
-                          ) : (
-                            <div className="w-6 h-6 rounded-full bg-neutral-200 dark:bg-neutral-700 flex-shrink-0" />
-                          )}
-                          <span className="truncate">{mainAuthor}</span>
-                        </div>
-                      </TableCell>
                       <TableCell className="font-medium text-neutral-900 dark:text-neutral-100">
                         <span className="line-clamp-2">{article.frontmatter.title}</span>
                       </TableCell>
-                      <TableCell>
-                        <span className={cn(
-                          "px-2 py-1 text-xs font-medium rounded-full",
-                          article.frontmatter.type === "dialogue"
-                            ? "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300"
-                            : "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
-                        )}>
-                          {article.frontmatter.type}
-                        </span>
-                      </TableCell>
                       <TableCell className="text-neutral-700 dark:text-neutral-300">
+                        {authors.length > 1 ? (
+                          <div className="flex flex-col gap-2">
+                            {authors.slice(0, 2).map((author, index) => {
+                              const authorPersona = personaMap[author]
+                              return (
+                                <div key={index} className="flex items-center gap-3">
+                                  {authorPersona ? (
+                                    <PersonaBadge
+                                      videoSrc={authorPersona.videoSrc}
+                                      imageSrc={authorPersona.imageSrc}
+                                      size="sm"
+                                    />
+                                  ) : (
+                                    <div className="w-6 h-6 rounded-full bg-neutral-200 dark:bg-neutral-700 flex-shrink-0" />
+                                  )}
+                                  <span className="truncate text-sm">{author}</span>
+                                </div>
+                              )
+                            })}
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-3">
+                            {persona ? (
+                              <PersonaBadge
+                                videoSrc={persona.videoSrc}
+                                imageSrc={persona.imageSrc}
+                                size="sm"
+                              />
+                            ) : (
+                              <div className="w-6 h-6 rounded-full bg-neutral-200 dark:bg-neutral-700 flex-shrink-0" />
+                            )}
+                            <span className="truncate">{mainAuthor}</span>
+                          </div>
+                        )}
+                      </TableCell>
+                      <TableCell className="text-neutral-700 dark:text-neutral-300 hidden md:table-cell">
                         <div className="flex items-center gap-2">
                           <Tag className="h-3 w-3" />
                           <span className="truncate">
-                            {article.frontmatter.tags?.slice(0, 2).join(', ') || 'No tags'}
+                            {article.frontmatter.tags?.slice(0, 3).join(', ') || 'No tags'}
                           </span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-neutral-700 dark:text-neutral-300 hidden lg:table-cell">
+                        <div className="flex items-center gap-2">
+                          <Clock className="h-3 w-3" />
+                          <span>{readingTime} min read</span>
                         </div>
                       </TableCell>
                       <TableCell className="text-neutral-700 dark:text-neutral-300">

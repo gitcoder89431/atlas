@@ -1,27 +1,32 @@
 "use client";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import { PersonaBadge } from "@/components/persona-badge";
+import { getPersonaByName } from "@/data/personas";
 
 export function Toc({
   contentHtml,
   title,
+  author,
   scrollContainerId = "scroll-container",
   articleRootId = "article-root",
-  offset = 80,
+  offset = 200,
 }: {
   contentHtml: string;
   title?: string;
+  author?: string;
   scrollContainerId?: string;
   articleRootId?: string;
   offset?: number;
 }) {
   const items = useMemo(() => {
-    const matches = contentHtml.match(/<h[2-3][^>]*>(.*?)<\/h[2-3]>/g) || [];
+    const matches = contentHtml.match(/<h[2-3][^>]*id="([^"]*)"[^>]*>(.*?)<\/h[2-3]>/g) || [];
     return matches.map((heading, idx) => {
       const levelMatch = heading.match(/<h([2-3])/);
       const level = parseInt(levelMatch?.[1] || "2", 10);
+      const idMatch = heading.match(/id="([^"]*)"/);
+      const id = idMatch?.[1] || "";
       const text = heading.replace(/<[^>]*>/g, "");
-      const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
       return { level, text, id, idx };
     });
   }, [contentHtml]);
@@ -102,26 +107,42 @@ export function Toc({
           ))}
         </nav>
       </div>
-      <div className="mt-6 pt-4 border-t border-neutral-200 dark:border-neutral-700">
-        <button
-          onClick={async (e) => {
-            e.preventDefault();
-            const temp = document.createElement('div');
-            temp.innerHTML = contentHtml;
-            const text = (temp.textContent || '').trim();
-            const payload = `${title ? title + '\n\n' : ''}${text}`;
-            try {
-              await navigator.clipboard.writeText(payload);
-              alert('Copied article content for LLM export');
-            } catch {
-              prompt('Copy article content:', payload.substring(0, 5000));
-            }
-          }}
-          className="w-full text-center text-xs px-3 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition-colors"
-        >
-          LLMs Export
-        </button>
-      </div>
+      {author && (() => {
+        const authors = author.includes('&') ? author.split('&').map(a => a.trim()) : [author];
+        const isDialogue = authors.length > 1;
+
+        return (
+          <div className="mt-6 pt-4 border-t border-neutral-200 dark:border-neutral-700">
+            <h4 className="font-medium text-neutral-900 dark:text-neutral-100 mb-3 text-sm">
+              {isDialogue ? 'Authors' : 'Author'}
+            </h4>
+            <div className="space-y-3">
+              {authors.slice(0, 2).map((authorName, index) => {
+                const persona = getPersonaByName(authorName);
+                if (!persona) return null;
+
+                return (
+                  <div key={index} className="flex gap-3 items-center">
+                    <PersonaBadge
+                      videoSrc={persona.videoSrc}
+                      imageSrc={persona.imageSrc}
+                      size="md"
+                    />
+                    <div className="flex-1">
+                      <h5 className="font-semibold text-neutral-900 dark:text-neutral-100 text-sm mb-1">
+                        {persona.name}
+                      </h5>
+                      <p className="text-neutral-600 dark:text-neutral-400 text-xs">
+                        {persona.title}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }

@@ -35,6 +35,11 @@ export default async function MonologuePage({ params }: PageProps) {
   const firstSection = /<h[2-3][^>]*>/i.exec(withoutInlineContinue)
   const introHtml = firstSection ? withoutInlineContinue.slice(0, firstSection.index) : ''
   const contentAfterIntro = firstSection ? withoutInlineContinue.slice(firstSection.index) : withoutInlineContinue
+  // Split contentAfterIntro at "TL;DR" to insert a visual separator before the summary
+  const tldrRegex = /<(?:strong|b)[^>]*>\s*(TL;DR|TLDR|Summary)\s*:?\s*<\/(?:strong|b)>/i
+  const match = tldrRegex.exec(contentAfterIntro)
+  const beforeHtml = match ? contentAfterIntro.slice(0, match.index) : contentAfterIntro
+  const afterHtml = match ? contentAfterIntro.slice(match.index) : ''
 
   return (
     <div className={cn("flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 mx-auto border border-neutral-200 dark:border-neutral-700 overflow-visible md:overflow-hidden min-h-screen md:h-screen")}>
@@ -136,8 +141,22 @@ export default async function MonologuePage({ params }: PageProps) {
                   {/* Main content */}
                   <article id="article-root"
                     className="prose prose-neutral dark:prose-invert prose-lg max-w-prose prose-headings:scroll-mt-8 prose-headings:font-bold prose-h1:text-3xl prose-h1:mb-8 prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4 prose-p:leading-relaxed prose-p:text-neutral-700 dark:prose-p:text-neutral-300 prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 dark:prose-blockquote:bg-blue-950/30 prose-blockquote:py-2 prose-blockquote:px-4 prose-strong:text-neutral-900 dark:prose-strong:text-neutral-100 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline"
-                    dangerouslySetInnerHTML={{ __html: contentAfterIntro }}
+                    dangerouslySetInnerHTML={{ __html: beforeHtml }}
                   />
+                  {match && (
+                    <>
+                      {/* Decorative separator leading into TL;DR */}
+                      <div className="my-12 flex items-center">
+                        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-blue-300 to-transparent dark:via-blue-700" />
+                        <span className="mx-3 text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400">TL;DR</span>
+                        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-purple-300 to-transparent dark:via-purple-700" />
+                      </div>
+                      <article
+                        className="prose prose-neutral dark:prose-invert prose-lg max-w-prose prose-headings:scroll-mt-8 prose-headings:font-bold prose-h1:text-3xl prose-h1:mb-8 prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4 prose-p:leading-relaxed prose-p:text-neutral-700 dark:prose-p:text-neutral-300 prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 dark:prose-blockquote:bg-blue-950/30 prose-blockquote:py-2 prose-blockquote:px-4 prose-strong:text-neutral-900 dark:prose-strong:text-neutral-100 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline"
+                        dangerouslySetInnerHTML={{ __html: afterHtml }}
+                      />
+                    </>
+                  )}
 
                   {/* Continue Exploration Section (bottom card) */}
                   <div className="mt-16 p-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/30 dark:to-purple-950/30 rounded-xl border border-blue-200 dark:border-blue-800">
@@ -171,9 +190,13 @@ export default async function MonologuePage({ params }: PageProps) {
               </TracingBeam>
             </div>
 
-            {/* Right Sidebar - TOC with highlight & LLM Export */}
+            {/* Right Sidebar - TOC with author profile */}
             <div className="hidden xl:block">
-              <Toc contentHtml={contentAfterIntro} title={article.frontmatter.title} />
+              <Toc
+                contentHtml={beforeHtml}
+                title={article.frontmatter.title}
+                author={article.frontmatter.author}
+              />
             </div>
           </div>
         </div>

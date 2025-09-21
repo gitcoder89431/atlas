@@ -11,116 +11,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Calendar, Clock, Tag, Award, BookOpen, Users } from 'lucide-react'
+import { getFeaturedPersonas, type Persona } from '@/data/personas'
 
-interface Persona {
-  id: string
-  name: string
-  title: string
-  era: string
-  videoSrc: string
-  imageSrc: string
-  bio: string
-  keyContributions: string[]
-  famousQuotes: string[]
-  expertise: string[]
-  nobel?: boolean
-}
-
-const personas: Persona[] = [
-  {
-    id: "richard_feynman",
-    name: "Richard Feynman",
-    title: "Theoretical Physicist & Nobel Laureate",
-    era: "1918-1988",
-    videoSrc: "/video/portraits/richard_feynman_v01_hq.mp4",
-    imageSrc: "/images/portraits/richard_feynman_s01_hq.jpg",
-    bio: "Brilliant physicist known for his work on quantum electrodynamics, his teaching ability, and his colorful personality. Feynman received the Nobel Prize in Physics in 1965 and was a key figure in the Manhattan Project.",
-    keyContributions: [
-      "Quantum Electrodynamics (QED)",
-      "Feynman Diagrams",
-      "Manhattan Project contributions",
-      "Challenger disaster investigation",
-      "Parton model of hadrons"
-    ],
-    famousQuotes: [
-      "I would rather have questions that can't be answered than answers that can't be questioned.",
-      "The first principle is that you must not fool yourself — and you are the easiest person to fool.",
-      "Study hard what interests you the most in the most undisciplined, irreverent and original manner possible."
-    ],
-    expertise: ["Quantum Physics", "Teaching", "Problem Solving", "Scientific Method"],
-    nobel: true
-  },
-  {
-    id: "elinor_ostrom",
-    name: "Elinor Ostrom",
-    title: "Political Economist & Nobel Laureate",
-    era: "1933-2012",
-    videoSrc: "/video/portraits/elinor_ostrom_v01_optimized.mp4",
-    imageSrc: "/images/portraits/elinor_ostrom_s01_optimized.jpg",
-    bio: "Groundbreaking political economist who challenged conventional wisdom about common pool resources. First woman to win the Nobel Prize in Economic Sciences for her analysis of economic governance, especially of shared resources.",
-    keyContributions: [
-      "Institutional Analysis and Development (IAD) framework",
-      "Polycentric governance theory",
-      "Common pool resource management principles",
-      "Design principles for stable resource management",
-      "Empirical studies of community-based resource governance"
-    ],
-    famousQuotes: [
-      "Neither the state nor the market is uniformly successful in enabling individuals to sustain long-term, productive use of natural resource systems.",
-      "What we have ignored is what citizens can do and the importance of real involvement of the people involved.",
-      "Individuals frequently develop institutions for managing common pool resources without creating either private property or relying on external authorities."
-    ],
-    expertise: ["Institutional Economics", "Governance", "Resource Management", "Policy Analysis", "Collective Action"],
-    nobel: true
-  },
-  {
-    id: "norbert_wiener",
-    name: "Norbert Wiener",
-    title: "Mathematician & Cybernetics Pioneer",
-    era: "1894-1964",
-    videoSrc: "/video/portraits/norbert_wiener_v01_optimized.mp4",
-    imageSrc: "/images/portraits/norbert_wiener_s01_optimized.jpg",
-    bio: "Mathematician and philosopher who founded the field of cybernetics, the study of communication and control in living organisms and machines. His work laid the foundation for modern automation, computer science, and artificial intelligence.",
-    keyContributions: [
-      "Founded the field of Cybernetics",
-      "Wiener process (Brownian motion mathematics)",
-      "Feedback control systems theory",
-      "Information theory contributions",
-      "Early artificial intelligence concepts"
-    ],
-    famousQuotes: [
-      "The future offers very little hope for those who expect that our new mechanical slaves will offer us a world in which we may rest from thinking.",
-      "We have decided to call the entire field of control and communication theory, whether in the machine or in the animal, by the name Cybernetics.",
-      "The best material model of a cat is another, or preferably the same, cat."
-    ],
-    expertise: ["Mathematics", "Cybernetics", "Control Theory", "Information Theory", "Philosophy of Technology"],
-    nobel: false
-  },
-  {
-    id: "sun_tzu",
-    name: "Sun Tzu",
-    title: "Military Strategist & Philosopher",
-    era: "544-496 BCE",
-    videoSrc: "/video/portraits/sun_tzu_v01_optimized.mp4",
-    imageSrc: "/images/portraits/sun_tzu_s01_optimized.jpg",
-    bio: "Ancient Chinese military strategist, philosopher, and author of 'The Art of War,' one of the most influential works on strategy and warfare. His principles extend far beyond military applications to business, politics, and life strategy.",
-    keyContributions: [
-      "Authored 'The Art of War'",
-      "Developed principles of strategic thinking",
-      "Advanced concepts of psychological warfare",
-      "Emphasized intelligence and deception in strategy",
-      "Influenced military doctrine for over 2,500 years"
-    ],
-    famousQuotes: [
-      "All warfare is based on deception.",
-      "The supreme excellence is to subdue the enemy without fighting.",
-      "If you know the enemy and know yourself, you need not fear the result of a hundred battles.",
-      "Supreme excellence consists of breaking the enemy's resistance without fighting."
-    ],
-    expertise: ["Military Strategy", "Philosophy", "Leadership", "Intelligence", "Tactical Planning"],
-    nobel: false
-  }
-]
+// Get featured personas for public display
+const personas = getFeaturedPersonas()
 
 export default function AgencyPage() {
   const [selectedPersona, setSelectedPersona] = useState<Persona | null>(null)
@@ -132,10 +26,10 @@ export default function AgencyPage() {
   }
 
   return (
-    <div className={cn("flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 mx-auto border border-neutral-200 dark:border-neutral-700 overflow-hidden h-screen")}>
+    <div className={cn("flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 mx-auto border border-neutral-200 dark:border-neutral-700 overflow-visible md:overflow-hidden min-h-screen md:h-screen")}>
       <AppSidebar />
       <div className="flex flex-1">
-        <div className="p-2 md:p-10 rounded-tl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex flex-col gap-2 flex-1 w-full h-full">
+        <div className="p-2 md:p-10 rounded-tl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex flex-col gap-2 flex-1 w-full h-auto md:h-full md:overflow-y-auto overflow-visible">
           {/* Persona Grid */}
           <div className="grid auto-rows-min gap-4 grid-cols-1 md:grid-cols-5">
             {personas.map((persona) => (
@@ -192,7 +86,7 @@ export default function AgencyPage() {
             ))}
 
             {/* Empty slots for future personas */}
-            {Array.from({ length: 6 }).map((_, i) => (
+            {Array.from({ length: Math.max(0, 25 - personas.length) }).map((_, i) => (
               <div
                 key={`empty-${i}`}
                 className="bg-gray-100 dark:bg-neutral-800 aspect-square rounded-xl hover:bg-gray-200 dark:hover:bg-neutral-700 transition-colors cursor-pointer border-2 border-dashed border-neutral-300 dark:border-neutral-600 flex items-center justify-center"
