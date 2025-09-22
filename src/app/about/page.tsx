@@ -1,43 +1,20 @@
 import { AppSidebar } from '@/components/app-sidebar'
 import { cn } from '@/lib/utils'
-import { AnimatedTestimonials } from '@/components/ui/animated-testimonials'
+import { PixelatedCanvas } from '@/components/ui/pixelated-canvas'
 
-const testimonials = [
+const teamMembers = [
   {
-    quote:
-      "The attention to detail and innovative features have completely transformed our workflow. This is exactly what we've been looking for.",
-    name: "Sarah Chen",
-    designation: "Product Manager at TechFlow",
-    src: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=3560&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    name: "Founder",
+    role: "The Architect",
+    description: "Provides the creative vision, asks the foundational \"Why,\" and guides the symbiotic partnership that breathes life into the system.",
+    image: "/images/team/founder.png"
   },
   {
-    quote:
-      "Implementation was seamless and the results exceeded our expectations. The platform's flexibility is remarkable.",
-    name: "Michael Rodriguez",
-    designation: "CTO at InnovateLabs",
-    src: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    quote:
-      "This solution has significantly improved our team's productivity. The intuitive interface makes complex tasks simple.",
-    name: "Emily Watson",
-    designation: "Operations Director at CloudScale",
-    src: "https://images.unsplash.com/photo-1623582854588-d60de57fa33f?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    quote:
-      "Outstanding support and robust features. It's rare to find a product that delivers on all its promises.",
-    name: "James Kim",
-    designation: "Engineering Lead at DataPro",
-    src: "https://images.unsplash.com/photo-1636041293178-808a6762ab39?q=80&w=3464&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
-  {
-    quote:
-      "The scalability and performance have been game-changing for our organization. Highly recommend to any growing business.",
-    name: "Lisa Thompson",
-    designation: "VP of Technology at FutureNet",
-    src: "https://images.unsplash.com/photo-1624561172888-ac93c696e10c?q=80&w=2592&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  },
+    name: "Ruixen",
+    role: "The Facilitator",
+    description: "A symbiotic AI partner that structures knowledge, executes complex tasks, and transforms vision into tangible reality.",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  }
 ]
 
 export default function AboutPage() {
@@ -46,11 +23,56 @@ export default function AboutPage() {
       <AppSidebar />
       <div className="flex flex-1">
         <div className="p-2 md:p-10 rounded-tl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex flex-col gap-2 flex-1 w-full h-full overflow-y-auto">
-          <div className="max-w-6xl mx-auto w-full">
-            <h1 className="text-4xl font-bold text-neutral-900 dark:text-neutral-100 mb-8">
-              About Us
-            </h1>
-            <AnimatedTestimonials testimonials={testimonials} />
+          <div className="max-w-6xl mx-auto w-full py-8">
+
+            {/* Header Section */}
+            <div className="text-center mb-16">
+              <h1 className="text-4xl md:text-5xl font-bold text-neutral-900 dark:text-neutral-100 mb-6">
+                About Ruixen
+              </h1>
+              <p className="text-xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto leading-relaxed">
+                A living ecosystem of tools, playbooks, and knowledge generated from human-AI collaboration.
+                The engine of creation and platform for future discovery.
+              </p>
+            </div>
+
+            {/* Team Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 max-w-5xl mx-auto">
+              {teamMembers.map((member, index) => (
+                <div key={index} className="group">
+                  {/* Pixelated Canvas Avatar */}
+                  <div className="relative mb-6 mx-auto w-64 h-64 md:w-80 md:h-80">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl transform group-hover:scale-105 transition-transform duration-300" />
+                    <div className="relative rounded-2xl overflow-hidden border-2 border-neutral-200 dark:border-neutral-700 group-hover:border-blue-500/50 transition-colors duration-300">
+                      <PixelatedCanvas
+                        src={member.image}
+                        width={320}
+                        height={320}
+                        interactive={true}
+                        className="w-full h-full"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="text-center space-y-4">
+                    <div>
+                      <h3 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">
+                        {member.name}
+                      </h3>
+                      <p className="text-lg text-blue-600 dark:text-blue-400 font-medium">
+                        {member.role}
+                      </p>
+                    </div>
+
+                    <p className="text-neutral-600 dark:text-neutral-400 leading-relaxed max-w-sm mx-auto">
+                      {member.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
           </div>
         </div>
       </div>

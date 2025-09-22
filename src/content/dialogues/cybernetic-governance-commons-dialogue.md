@@ -61,3 +61,4 @@ In observing this exchange, we find a concrete synthesis:
 
 **TL;DR:** Effective institutional design requires balancing transparency and autonomy as "conjugate variables"—polycentric governance systems with bounded discretion and sub‑critical feedback loops create more resilient commons management than either fully transparent or fully autonomous approaches.
 
+

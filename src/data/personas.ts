@@ -304,6 +304,54 @@ export const personas: Persona[] = [
     featured: true
   },
   {
+    id: "charles_darwin",
+    name: "Charles Darwin",
+    title: "Naturalist & Evolutionary Biologist",
+    era: "1809-1882",
+    videoSrc: "/video/portraits/charles_darwin_v01_optimized.mp4",
+    imageSrc: "/images/portraits/charles_darwin_s01_optimized.jpg",
+    bio: "Revolutionary naturalist whose theory of evolution through natural selection fundamentally changed our understanding of life. His observations during the voyage of the Beagle led to groundbreaking insights about the origin and development of species.",
+    keyContributions: [
+      "Theory of evolution by natural selection",
+      "The Origin of Species publication",
+      "Voyage of the Beagle observations",
+      "Sexual selection theory",
+      "Common descent principle"
+    ],
+    famousQuotes: [
+      "It is not the strongest of the species that survives, nor the most intelligent, but the one most responsive to change.",
+      "In the long history of humankind, those who learned to collaborate and improvise most effectively have prevailed.",
+      "The mystery of the beginning of all things is insoluble by us; and I for one must be content to remain an agnostic."
+    ],
+    expertise: ["Natural History", "Evolution", "Biology", "Geology", "Scientific Method"],
+    nobel: false,
+    featured: true
+  },
+  {
+    id: "rachel_carson",
+    name: "Rachel Carson",
+    title: "Marine Biologist & Environmental Writer",
+    era: "1907-1964",
+    videoSrc: "/video/portraits/rachel_carson_s01.mp4",
+    imageSrc: "/images/portraits/rachel_carson_v01.png",
+    bio: "Marine biologist and conservationist whose eloquent writing about nature sparked the modern environmental movement. Her book 'Silent Spring' challenged the chemical industry and led to the ban of DDT in the United States.",
+    keyContributions: [
+      "Authored 'Silent Spring' environmental classic",
+      "Founded modern environmental movement",
+      "Marine biology research and writing",
+      "Pesticide danger awareness",
+      "Nature conservation advocacy"
+    ],
+    famousQuotes: [
+      "In every outthrust headland, in every curving beach, in every grain of sand there is the story of the earth.",
+      "The more clearly we can focus our attention on the wonders and realities of the universe about us, the less taste we shall have for destruction.",
+      "Wonder is not a fear but a doorway to understanding."
+    ],
+    expertise: ["Marine Biology", "Environmental Science", "Conservation", "Nature Writing", "Ecology"],
+    nobel: false,
+    featured: true
+  },
+  {
     id: "nikola_tesla",
     name: "Nikola Tesla",
     title: "Inventor & Electrical Engineer",
@@ -660,6 +708,28 @@ export const personas: Persona[] = [
       "A record, if it is to be useful to science, must be continuously extended, it must be stored, and above all it must be consulted."
     ],
     expertise: ["Engineering", "Science Policy", "Computing", "Information Systems", "Innovation"],
+    nobel: false,
+    featured: false
+  },
+  {
+    id: "ruixen",
+    name: "Ruixen",
+    title: "Atlas Creator & Developer",
+    era: "Present",
+    videoSrc: "/images/team/founder.png",
+    imageSrc: "/images/team/founder.png",
+    bio: "The creator and developer of Atlas, exploring the intersections between artificial intelligence, historical thought, and modern computational theory through curated dialogues and analysis.",
+    keyContributions: [
+      "Atlas platform development",
+      "AI-human dialogue curation",
+      "Historical persona simulation",
+      "Computational philosophy exploration"
+    ],
+    famousQuotes: [
+      "Better to be safe than sorry.",
+      "The bridge between past wisdom and future intelligence."
+    ],
+    expertise: ["Software Development", "AI Systems", "Digital Philosophy", "Content Curation"],
     nobel: false,
     featured: false
   }

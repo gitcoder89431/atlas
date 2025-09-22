@@ -55,7 +55,7 @@ export default function AtlasPage() {
                 Atlas
               </h1>
               <p className="text-base md:text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto px-4 md:px-0">
-                Knowledge feed of thoughts
+                Knowledge feed of minds
               </p>
             </header>
 
