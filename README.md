@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Atlas
 
-## Getting Started
+> Where history's greatest minds meet tomorrow's intelligence
 
-First, run the development server:
+Atlas is a curated platform for exploring conversations between history's most influential thinkers and the cutting edge of artificial intelligence. Through carefully crafted dialogues and monologues, we bridge centuries of human wisdom with modern computational thinking.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## What Atlas Offers
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**🏛️ Agency** - Meet 27 historical personas, from Nobel laureates to classical philosophers. Each figure comes to life through rich biographical content and authentic voice modeling.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**📚 Atlas Feed** - Discover thought-provoking articles in an elegant, reader-focused interface. Each piece explores deep questions through the lens of great minds.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**🔍 Explore** - Search and filter through our growing collection of dialogues, monologues, and analytical pieces. Find exactly what sparks your curiosity.
 
-## Learn More
+**💭 Dialogues** - Witness conversations that transcend time. Watch Darwin and Turing explore the computational nature of evolution, or see Ostrom and Wiener debate cybernetic governance.
 
-To learn more about Next.js, take a look at the following resources:
+**📝 Monologues** - Experience the world through the eyes of history's greatest thinkers. From Feynman on consciousness to Turing on machine intelligence.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Featured Thinkers
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Our current collection includes minds like Richard Feynman, Marie Curie, Alan Turing, Charles Darwin, Elinor Ostrom, Marcus Aurelius, Hannah Arendt, Leonardo da Vinci, and many others - each contributing their unique perspective to modern questions.
 
-## Deploy on Vercel
+## Philosophy
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Atlas believes that the wisdom of the past can illuminate the challenges of tomorrow. By creating authentic conversations between historical figures and contemporary ideas, we explore how timeless insights apply to our rapidly evolving world.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+*Built with Next.js, TypeScript, and Tailwind CSS. Powered by thoughtful design and respect for intellectual heritage.*

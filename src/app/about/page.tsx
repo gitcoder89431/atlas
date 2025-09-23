@@ -39,11 +39,11 @@ export default function AboutPage() {
             {/* Team Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 max-w-5xl mx-auto">
               {teamMembers.map((member, index) => (
-                <div key={index} className="group">
+                <div key={index}>
                   {/* Pixelated Canvas Avatar */}
                   <div className="relative mb-6 mx-auto w-64 h-64 md:w-80 md:h-80">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl transform group-hover:scale-105 transition-transform duration-300" />
-                    <div className="relative rounded-2xl overflow-hidden border-2 border-neutral-200 dark:border-neutral-700 group-hover:border-blue-500/50 transition-colors duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl" />
+                    <div className="relative rounded-2xl overflow-hidden border-2 border-neutral-200 dark:border-neutral-700">
                       <PixelatedCanvas
                         src={member.image}
                         width={320}
