@@ -726,7 +726,6 @@ export const personas: Persona[] = [
       "Computational philosophy exploration"
     ],
     famousQuotes: [
-      "Better to be safe than sorry.",
       "The bridge between past wisdom and future intelligence."
     ],
     expertise: ["Software Development", "AI Systems", "Digital Philosophy", "Content Curation"],

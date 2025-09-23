@@ -40,10 +40,10 @@ export default function Home() {
           <div className="relative z-20 flex flex-col items-center justify-center h-full">
             <div className="text-center mb-16">
               <h1 className="text-4xl md:text-6xl font-bold text-neutral-900 dark:text-neutral-100 mb-6">
-                Atlas
+                RUIXEN
               </h1>
               <p className="text-xl md:text-2xl text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
-                Where history's greatest minds meet tomorrow's intelligence
+                The bridge between past wisdom and future intelligence
               </p>
             </div>
 
@@ -53,12 +53,6 @@ export default function Home() {
                 items={quotes}
                 direction="right"
                 speed="slow"
-                className="mb-8"
-              />
-              <InfiniteMovingCards
-                items={quotes.slice().reverse()}
-                direction="left"
-                speed="normal"
               />
             </div>
           </div>
