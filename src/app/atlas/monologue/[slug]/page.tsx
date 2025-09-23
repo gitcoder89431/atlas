@@ -19,7 +19,8 @@ export async function generateStaticParams() {
 }
 
 export default async function MonologuePage({ params }: PageProps) {
-  const article = await getArticleBySlug(params.slug)
+  const { slug } = await params
+  const article = await getArticleBySlug(slug)
 
   if (!article || article.frontmatter.type !== 'monologue') {
     notFound()

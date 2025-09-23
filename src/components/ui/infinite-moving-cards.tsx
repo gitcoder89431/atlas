@@ -60,17 +60,12 @@ export const InfiniteMovingCards = ({
       ref={containerRef}
       className={cn(
         "scroller relative z-0 w-full overflow-hidden",
-        // Cross-browser mask fade on both edges
-        "[mask-image:linear-gradient(to_right,rgba(0,0,0,0),rgba(0,0,0,1)_20%,rgba(0,0,0,1)_80%,rgba(0,0,0,0))]",
-        "[mask-repeat:no-repeat] [mask-size:100%_100%]",
-        "[-webkit-mask-image:linear-gradient(to_right,rgba(0,0,0,0),rgba(0,0,0,1)_20%,rgba(0,0,0,1)_80%,rgba(0,0,0,0))]",
-        "[-webkit-mask-repeat:no-repeat] [-webkit-mask-size:100%_100%]",
         className,
       )}
     >
       {/* Visual edge fades as overlays for robust cross-browser behavior */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-24 z-20 bg-gradient-to-r from-white to-transparent dark:from-neutral-900" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-24 z-20 bg-gradient-to-l from-white to-transparent dark:from-neutral-900" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-32 z-20 bg-gradient-to-r from-white to-transparent dark:from-neutral-900" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-32 z-20 bg-gradient-to-l from-white to-transparent dark:from-neutral-900" />
 
       <ul
         className={cn(

@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { PersonaBadge } from "@/components/persona-badge";
 import { personaMap } from "@/data/personas";
 import { Clock, TrendingUp, Zap } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface RecentUpdate {
   type: "new" | "trending" | "active";
@@ -14,7 +15,7 @@ interface RecentUpdate {
   slug: string;
 }
 
-// Mock data - in real app this would come from API
+// Mock data - in real app this would be generated from article dates
 const recentUpdates: RecentUpdate[] = [
   {
     type: "new",
@@ -39,14 +40,6 @@ const recentUpdates: RecentUpdate[] = [
     time: "6h",
     channel: "philosophy",
     slug: "cybernetic-governance-commons-dialogue"
-  },
-  {
-    type: "new",
-    title: "Computing Machinery",
-    author: "Alan Turing",
-    time: "1d",
-    channel: "mathematics",
-    slug: "computing-machinery-turing"
   }
 ];
 
@@ -67,6 +60,8 @@ interface RecentUpdatesProps {
 }
 
 export function RecentUpdates({ className }: RecentUpdatesProps) {
+  const router = useRouter();
+
   return (
     <div
       className={cn(
@@ -90,9 +85,17 @@ export function RecentUpdates({ className }: RecentUpdatesProps) {
           const mainAuthor = update.author.split('&')[0].trim();
           const persona = personaMap[mainAuthor];
 
+          // Determine correct route based on channel/content type
+          const getArticleRoute = (slug: string, channel: string) => {
+            // For now, assume dialogue if multiple authors, monologue if single
+            const isDialogue = update.author.includes('&');
+            return isDialogue ? `/atlas/dialogue/${slug}` : `/atlas/monologue/${slug}`;
+          };
+
           return (
             <div key={index}>
               <div
+                onClick={() => router.push(getArticleRoute(update.slug, update.channel))}
                 className={cn(
                   "group p-3 rounded-md transition-all duration-200",
                   "hover:bg-white dark:hover:bg-neutral-700",

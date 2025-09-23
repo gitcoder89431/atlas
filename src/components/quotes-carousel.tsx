@@ -31,7 +31,7 @@ export function QuotesCarousel() {
   const quotes = useMemo(() => getQuotesFromPersonas(), []);
 
   return (
-    <div className="w-full max-w-none overflow-hidden">
+    <div className="w-full max-w-none overflow-hidden mt-6 md:mt-10">
       <InfiniteMovingCards
         items={quotes}
         direction="right"

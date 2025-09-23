@@ -24,7 +24,8 @@ export async function generateStaticParams() {
 // TOC moved to client component '@/components/ui/toc'
 
 export default async function DialoguePage({ params }: DialoguePageProps) {
-  const article = await getArticleBySlug(params.slug)
+  const { slug } = await params
+  const article = await getArticleBySlug(slug)
 
   if (!article || article.frontmatter.type !== 'dialogue') {
     notFound()
