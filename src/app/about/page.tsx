@@ -42,7 +42,7 @@ export default function AboutPage() {
                 <div key={index}>
                   {/* Pixelated Canvas Avatar */}
                   <div className="relative mb-6 mx-auto w-64 h-64 md:w-80 md:h-80">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl" />
+                    <div className="absolute inset-0 rounded-2xl" style={{ background: 'linear-gradient(to bottom right, var(--ruixen-primary)/20, var(--ruixen-secondary)/20)' }} />
                     <div className="relative rounded-2xl overflow-hidden border-2 border-neutral-200 dark:border-neutral-700">
                       <PixelatedCanvas
                         src={member.image}
@@ -60,7 +60,7 @@ export default function AboutPage() {
                       <h3 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">
                         {member.name}
                       </h3>
-                      <p className="text-lg text-blue-600 dark:text-blue-400 font-medium">
+                      <p className="text-lg font-medium" style={{ color: 'var(--ruixen-primary)' }}>
                         {member.role}
                       </p>
                     </div>

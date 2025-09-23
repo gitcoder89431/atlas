@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 export const InfiniteMovingCards = ({
   items,
@@ -21,94 +21,79 @@ export const InfiniteMovingCards = ({
   className?: string;
 }) => {
   const containerRef = React.useRef<HTMLDivElement>(null);
-  const scrollerRef = React.useRef<HTMLUListElement>(null);
+  const [started, setStarted] = useState(false);
 
+  // Duplicate items at render time instead of mutating the DOM.
+  // This keeps the animation seamless across responsive breakpoints and resizes.
+  const displayItems = useMemo(() => {
+    const base = items.slice(0, 8);
+    return [...base, ...base];
+  }, [items]);
+
+  // Apply speed and direction using CSS variables; reapply on changes or resize.
   useEffect(() => {
-    addAnimation();
-  }, []);
+    const el = containerRef.current;
+    if (!el) return;
 
-  const [start, setStart] = useState(false);
+    const setVars = () => {
+      el.style.setProperty(
+        "--animation-direction",
+        direction === "left" ? "forwards" : "reverse",
+      );
+      el.style.setProperty(
+        "--animation-duration",
+        speed === "fast" ? "20s" : speed === "normal" ? "40s" : "80s",
+      );
+    };
 
-  function addAnimation() {
-    if (containerRef.current && scrollerRef.current) {
-      const scrollerContent = Array.from(scrollerRef.current.children);
+    setVars();
+    setStarted(true);
 
-      scrollerContent.forEach((item) => {
-        const duplicatedItem = item.cloneNode(true);
-        if (scrollerRef.current) {
-          scrollerRef.current.appendChild(duplicatedItem);
-        }
-      });
-
-      getDirection();
-      getSpeed();
-      setStart(true);
-    }
-  }
-
-  const getDirection = () => {
-    if (containerRef.current) {
-      if (direction === "left") {
-        containerRef.current.style.setProperty(
-          "--animation-direction",
-          "forwards"
-        );
-      } else {
-        containerRef.current.style.setProperty(
-          "--animation-direction",
-          "reverse"
-        );
-      }
-    }
-  };
-
-  const getSpeed = () => {
-    if (containerRef.current) {
-      if (speed === "fast") {
-        containerRef.current.style.setProperty("--animation-duration", "300s");
-      } else if (speed === "normal") {
-        containerRef.current.style.setProperty("--animation-duration", "450s");
-      } else {
-        containerRef.current.style.setProperty("--animation-duration", "600s");
-      }
-    }
-  };
+    // Reapply on resize so responsive width changes stay in sync.
+    const onResize = () => setVars();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [direction, speed]);
 
   return (
     <div
       ref={containerRef}
       className={cn(
-        "scroller relative z-20 max-w-7xl overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
-        className
+        "scroller relative z-0 w-full overflow-hidden",
+        // Cross-browser mask fade on both edges
+        "[mask-image:linear-gradient(to_right,rgba(0,0,0,0),rgba(0,0,0,1)_20%,rgba(0,0,0,1)_80%,rgba(0,0,0,0))]",
+        "[mask-repeat:no-repeat] [mask-size:100%_100%]",
+        "[-webkit-mask-image:linear-gradient(to_right,rgba(0,0,0,0),rgba(0,0,0,1)_20%,rgba(0,0,0,1)_80%,rgba(0,0,0,0))]",
+        "[-webkit-mask-repeat:no-repeat] [-webkit-mask-size:100%_100%]",
+        className,
       )}
     >
+      {/* Visual edge fades as overlays for robust cross-browser behavior */}
+      <div className="pointer-events-none absolute inset-y-0 left-0 w-24 z-20 bg-gradient-to-r from-white to-transparent dark:from-neutral-900" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 w-24 z-20 bg-gradient-to-l from-white to-transparent dark:from-neutral-900" />
+
       <ul
-        ref={scrollerRef}
         className={cn(
           "flex min-w-full shrink-0 gap-4 py-4 w-max flex-nowrap",
-          start && "animate-scroll",
-          pauseOnHover && "hover:[animation-play-state:paused]"
+          started && "animate-scroll",
+          pauseOnHover && "hover:[animation-play-state:paused]",
         )}
       >
-        {items.map((item, idx) => (
+        {displayItems.map((item, idx) => (
           <li
-            className="w-[350px] max-w-full relative rounded-2xl border border-b-0 flex-shrink-0 border-neutral-300 dark:border-slate-700 px-8 py-6 md:w-[450px] bg-neutral-800 dark:bg-slate-800"
+            className="w-[320px] sm:w-[360px] md:w-[400px] lg:w-[450px] max-w-full relative rounded-2xl border flex-shrink-0 border-neutral-200 dark:border-slate-700 px-6 md:px-8 py-6 bg-white dark:bg-slate-800 shadow-md"
             key={idx}
           >
             <blockquote>
-              <div
-                aria-hidden="true"
-                className="user-select-none -z-1 pointer-events-none absolute -left-0.5 -top-0.5 h-[calc(100%_+_4px)] w-[calc(100%_+_4px)]"
-              ></div>
-              <span className="relative z-20 text-sm leading-[1.6] text-white dark:text-gray-100 font-normal">
+              <span className="relative z-20 text-sm leading-[1.6] text-neutral-800 dark:text-gray-100 font-normal">
                 "{item.quote}"
               </span>
               <div className="relative z-20 mt-6 flex flex-row items-center">
                 <span className="flex flex-col gap-1">
-                  <span className="text-sm leading-[1.6] text-neutral-300 dark:text-gray-400 font-normal">
+                  <span className="text-sm leading-[1.6] text-neutral-600 dark:text-gray-400 font-medium">
                     {item.name}
                   </span>
-                  <span className="text-sm leading-[1.6] text-neutral-300 dark:text-gray-400 font-normal">
+                  <span className="text-xs leading-[1.4] text-neutral-500 dark:text-gray-500 font-normal">
                     {item.title}
                   </span>
                 </span>

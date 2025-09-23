@@ -4,6 +4,33 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* RUIXEN Brand Colors */
+  --ruixen-primary: #1e40af;        /* blue-800 */
+  --ruixen-primary-hover: #1d4ed8;  /* blue-700 */
+  --ruixen-secondary: #7c3aed;      /* violet-600 */
+  --ruixen-secondary-hover: #8b5cf6; /* violet-500 */
+
+  /* Monologue Theme (Blue) */
+  --monologue-accent: #3b82f6;      /* blue-500 */
+  --monologue-accent-light: #dbeafe; /* blue-50 */
+  --monologue-accent-dark: #1e3a8a;  /* blue-900 */
+
+  /* Dialogue Theme (Purple) */
+  --dialogue-accent: #8b5cf6;       /* violet-500 */
+  --dialogue-accent-light: #f3e8ff; /* violet-50 */
+  --dialogue-accent-dark: #5b21b6;  /* violet-800 */
+
+  /* Text Hierarchy */
+  --text-primary: #0a0a0a;          /* neutral-900 */
+  --text-secondary: #525252;        /* neutral-600 */
+  --text-muted: #737373;            /* neutral-500 */
+  --text-inverse: #ffffff;
+
+  /* Borders & Backgrounds */
+  --border-light: #e5e5e5;          /* neutral-200 */
+  --bg-subtle: #fafafa;             /* neutral-50 */
+  --bg-card: #ffffff;
 }
 
 @theme inline {
@@ -17,6 +44,33 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+
+    /* RUIXEN Brand Colors (Dark Mode) */
+    --ruixen-primary: #3b82f6;        /* blue-500 */
+    --ruixen-primary-hover: #60a5fa;  /* blue-400 */
+    --ruixen-secondary: #a855f7;      /* violet-500 */
+    --ruixen-secondary-hover: #c084fc; /* violet-400 */
+
+    /* Monologue Theme (Blue - Dark) */
+    --monologue-accent: #60a5fa;      /* blue-400 */
+    --monologue-accent-light: #1e3a8a; /* blue-900/30 */
+    --monologue-accent-dark: #dbeafe;  /* blue-50 */
+
+    /* Dialogue Theme (Purple - Dark) */
+    --dialogue-accent: #c084fc;       /* violet-400 */
+    --dialogue-accent-light: #5b21b6; /* violet-800/30 */
+    --dialogue-accent-dark: #f3e8ff;  /* violet-50 */
+
+    /* Text Hierarchy (Dark) */
+    --text-primary: #fafafa;          /* neutral-50 */
+    --text-secondary: #a3a3a3;        /* neutral-400 */
+    --text-muted: #737373;            /* neutral-500 */
+    --text-inverse: #0a0a0a;
+
+    /* Borders & Backgrounds (Dark) */
+    --border-light: #404040;          /* neutral-700 */
+    --bg-subtle: #171717;             /* neutral-900 */
+    --bg-card: #262626;               /* neutral-800 */
   }
 }
 

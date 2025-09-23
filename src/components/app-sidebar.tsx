@@ -15,27 +15,27 @@ const links = [
   {
     label: "Home",
     href: "/",
-    icon: <Home className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />,
+    icon: <Home className="h-5 w-5 flex-shrink-0" />,
   },
   {
     label: "Agency",
     href: "/agency",
-    icon: <Users className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />,
+    icon: <Users className="h-5 w-5 flex-shrink-0" />,
   },
   {
     label: "Atlas",
     href: "/atlas",
-    icon: <BookOpen className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />,
+    icon: <BookOpen className="h-5 w-5 flex-shrink-0" />,
   },
   {
     label: "Explore",
     href: "/explore",
-    icon: <Search className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />,
+    icon: <Search className="h-5 w-5 flex-shrink-0" />,
   },
   {
     label: "About",
     href: "/about",
-    icon: <Info className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />,
+    icon: <Info className="h-5 w-5 flex-shrink-0" />,
   },
 ]
 
@@ -50,11 +50,11 @@ export function AppSidebar() {
                 key={idx}
                 href={link.href}
                 className={cn(
-                  "flex items-center justify-start gap-2 group/sidebar py-2"
+                  "flex items-center justify-start gap-2 group/sidebar py-2 text-neutral-700 dark:text-neutral-200 hover:text-[var(--ruixen-primary)] dark:hover:text-[var(--ruixen-primary)] transition-colors"
                 )}
               >
                 {link.icon}
-                <span className="text-neutral-700 dark:text-neutral-200 text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0">
+                <span className="text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0">
                   {link.label}
                 </span>
               </a>

@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { AppSidebar } from '@/components/app-sidebar'
+import { ChannelsSidebar } from '@/components/channels-sidebar'
+import { RecentUpdates } from '@/components/recent-updates'
 import { cn } from '@/lib/utils'
 import { PersonaBadge } from '@/components/persona-badge'
 import { Clock, Tag } from 'lucide-react'
@@ -23,6 +25,7 @@ export default function AtlasPage() {
     }
   }>>([])
   const [loading, setLoading] = useState(true)
+  const [selectedChannel, setSelectedChannel] = useState('all')
   const router = useRouter()
 
   useEffect(() => {
@@ -43,65 +46,102 @@ export default function AtlasPage() {
     fetchArticles()
   }, [])
 
+  // Filter articles based on selected channel
+  const filteredArticles = selectedChannel === 'all'
+    ? articles
+    : articles.filter(article => {
+        // Mock channel assignment based on tags or content
+        // In real app, this would be in frontmatter
+        const tags = article.frontmatter.tags || [];
+        const content = article.content.toLowerCase();
+
+        switch (selectedChannel) {
+          case 'physics':
+            return tags.some(tag => ['physics', 'quantum', 'mechanics'].includes(tag.toLowerCase())) ||
+                   content.includes('physics') || content.includes('quantum');
+          case 'philosophy':
+            return tags.some(tag => ['philosophy', 'ethics', 'consciousness'].includes(tag.toLowerCase())) ||
+                   content.includes('philosophy') || content.includes('consciousness');
+          case 'mathematics':
+            return tags.some(tag => ['mathematics', 'computation', 'logic'].includes(tag.toLowerCase())) ||
+                   content.includes('mathematics') || content.includes('computation');
+          case 'biology':
+            return tags.some(tag => ['biology', 'evolution', 'life'].includes(tag.toLowerCase())) ||
+                   content.includes('biology') || content.includes('evolution');
+          case 'ethics':
+            return tags.some(tag => ['ethics', 'morality', 'justice'].includes(tag.toLowerCase())) ||
+                   content.includes('ethics') || content.includes('morality');
+          case 'consciousness':
+            return tags.some(tag => ['consciousness', 'mind', 'cognition'].includes(tag.toLowerCase())) ||
+                   content.includes('consciousness') || content.includes('mind');
+          default:
+            return true;
+        }
+      });
+
   return (
-    <div className={cn("flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 mx-auto border border-neutral-200 dark:border-neutral-700 overflow-visible md:overflow-hidden min-h-screen md:h-screen")}>
+    <div className={cn("flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 mx-auto border border-neutral-200 dark:border-neutral-700 overflow-hidden min-h-screen md:h-screen")}>
       <AppSidebar />
+
+      {/* Main content area - follows global pattern */}
       <div className="flex flex-1">
-        <div className="p-4 md:p-10 rounded-tl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex flex-col gap-2 flex-1 w-full h-auto md:h-full md:overflow-y-auto overflow-visible">
-          {/* Centered content container with optimal reading width */}
-          <div className="max-w-4xl mx-auto w-full px-2 md:px-0">
-            <header className="mb-8 md:mb-12 text-center">
-              <h1 className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-neutral-100 mb-3 md:mb-4">
-                Atlas
-              </h1>
-              <p className="text-base md:text-lg text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto px-4 md:px-0">
-                Knowledge feed of minds
-              </p>
-            </header>
+        <div className="p-2 md:p-6 lg:p-10 rounded-tl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex flex-1 w-full h-full overflow-hidden">
+          {/* 3-panel layout within main content */}
+          <div className="flex flex-1 justify-center items-start">
+            {/* Center-focused layout */}
+            <div className="flex max-w-7xl w-full gap-4">
+              {/* Left: Channels Sidebar */}
+              <ChannelsSidebar
+                selectedChannel={selectedChannel}
+                onChannelSelect={setSelectedChannel}
+              />
 
-            {/* Twitter-style feed */}
-            {loading ? (
-              <div className="space-y-4 md:space-y-6">
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <div
-                    key={index}
-                    className="bg-white dark:bg-neutral-800 rounded-lg md:rounded-xl p-4 md:p-6 border border-neutral-200 dark:border-neutral-700"
-                  >
-                    <div className="space-y-3 md:space-y-4">
-                      <div className="h-5 md:h-6 bg-neutral-200 dark:bg-neutral-600 rounded-md w-4/5 md:w-3/4"></div>
-                      <div className="space-y-2">
-                        <div className="h-3 md:h-4 bg-neutral-100 dark:bg-neutral-700 rounded w-full"></div>
-                        <div className="h-3 md:h-4 bg-neutral-100 dark:bg-neutral-700 rounded w-4/5 md:w-5/6"></div>
+              {/* Center: Scrollable Feed */}
+              <div className="flex-1 overflow-y-auto" style={{ maxHeight: "calc(100vh - 3rem)" }}>
+              <div className="max-w-3xl mx-auto space-y-6">
+                {/* Feed */}
+                {loading ? (
+                  <div className="space-y-6">
+                    {Array.from({ length: 4 }).map((_, index) => (
+                      <div
+                        key={index}
+                        className="bg-white dark:bg-neutral-800 rounded-xl p-6 border border-neutral-200 dark:border-neutral-700"
+                      >
+                        <div className="space-y-4">
+                          <div className="h-6 bg-neutral-200 dark:bg-neutral-600 rounded-md w-3/4"></div>
+                          <div className="space-y-2">
+                            <div className="h-4 bg-neutral-100 dark:bg-neutral-700 rounded w-full"></div>
+                            <div className="h-4 bg-neutral-100 dark:bg-neutral-700 rounded w-5/6"></div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="space-y-4 md:space-y-6">
-                {articles.map((article) => {
-                  const readingTime = Math.ceil(article.content.replace(/<[^>]*>/g, '').split(' ').length / 200)
-                  const authorString = article.frontmatter.author || 'Unknown'
-                  const authors = authorString.includes('&') ? authorString.split('&').map((a: string) => a.trim()) : [authorString]
-                  const mainAuthor = authors[0]
-                  const persona = personaMap[mainAuthor]
-                  const href = article.frontmatter.type === 'dialogue'
-                    ? `/atlas/dialogue/${article.slug}`
-                    : `/atlas/monologue/${article.slug}`
+                ) : (
+                  <div className="space-y-6">
+                    {filteredArticles.map((article) => {
+                      const readingTime = Math.ceil(article.content.replace(/<[^>]*>/g, '').split(' ').length / 200)
+                      const authorString = article.frontmatter.author || 'Unknown'
+                      const authors = authorString.includes('&') ? authorString.split('&').map((a: string) => a.trim()) : [authorString]
+                      const mainAuthor = authors[0]
+                      const persona = personaMap[mainAuthor]
+                      const href = article.frontmatter.type === 'dialogue'
+                        ? `/atlas/dialogue/${article.slug}`
+                        : `/atlas/monologue/${article.slug}`
 
-                  // Extract first paragraph as summary
-                  const contentText = article.content.replace(/<[^>]*>/g, '')
-                  const firstParagraph = contentText.split('\n\n')[0] || contentText.slice(0, 200)
-                  const summary = firstParagraph.length > 200 ? firstParagraph.slice(0, 200) + '...' : firstParagraph
+                      // Extract first paragraph as summary
+                      const contentText = article.content.replace(/<[^>]*>/g, '')
+                      const firstParagraph = contentText.split('\n\n')[0] || contentText.slice(0, 200)
+                      const summary = firstParagraph.length > 200 ? firstParagraph.slice(0, 200) + '...' : firstParagraph
 
-                  return (
-                    <article
-                      key={article.slug}
-                      onClick={() => router.push(href)}
-                      className="group bg-white dark:bg-neutral-800 rounded-lg md:rounded-xl p-4 md:p-6 hover:bg-neutral-50 dark:hover:bg-neutral-700/50 transition-all duration-300 cursor-pointer border border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600 hover:shadow-md dark:hover:shadow-lg"
-                    >
-                      {/* Author header */}
-                      <div className="flex items-center gap-3 mb-3 md:mb-4">
+                      return (
+                        <article
+                          key={article.slug}
+                          onClick={() => router.push(href)}
+                          className="group bg-white dark:bg-neutral-800 rounded-xl p-6 hover:bg-neutral-50 dark:hover:bg-neutral-700/50 transition-all duration-300 cursor-pointer border border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600 hover:shadow-lg"
+                        >
+                          {/* Author header */}
+                          <div className="flex items-center gap-3 mb-3 md:mb-4">
                         {authors.length > 1 ? (
                           <div className="flex -space-x-2">
                             {authors.slice(0, 2).map((author: string, index: number) => {
@@ -146,7 +186,7 @@ export default function AtlasPage() {
 
                       {/* Article content */}
                       <div className="space-y-3 md:space-y-4">
-                        <h2 className="text-lg md:text-xl font-bold text-neutral-900 dark:text-neutral-100 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                        <h2 className="text-lg md:text-xl font-bold text-neutral-900 dark:text-neutral-100 line-clamp-2 transition-colors" style={{ '--hover-color': 'var(--ruixen-primary)' } as any} onMouseEnter={(e) => e.currentTarget.style.color = 'var(--ruixen-primary)'} onMouseLeave={(e) => e.currentTarget.style.color = ''}>
                           {article.frontmatter.title}
                         </h2>
 
@@ -168,14 +208,20 @@ export default function AtlasPage() {
                           )}
                         </div>
                       </div>
-                    </article>
-                  )
-                })}
-              </div>
-            )}
+                        </article>
+                      )
+                    })}
+                  </div>
+                )}
 
-            {/* Bottom padding for scroll breathing room */}
-            <div className="h-16 md:h-20"></div>
+                {/* Zen breathing space */}
+                <div className="h-20"></div>
+              </div>
+              </div>
+
+              {/* Right: Recent Updates */}
+              <RecentUpdates />
+            </div>
           </div>
         </div>
       </div>
