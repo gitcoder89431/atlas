@@ -7,14 +7,10 @@ import remarkGfm from 'remark-gfm'
 import remarkSlug from 'remark-slug'
 
 function getContentRoots(): string[] {
-  const roots: string[] = []
-  const a = path.join(process.cwd(), 'src/content')
-  const b = path.join(process.cwd(), 'content')
-  if (fs.existsSync(a)) roots.push(a)
-  if (fs.existsSync(b)) roots.push(b)
-  // Default to src/content-like path to avoid undefined
-  if (roots.length === 0) roots.push(a)
-  return roots
+  // ONLY read from src/content for published articles
+  // Draft content in /content is NOT served to website
+  const publishedContentRoot = path.join(process.cwd(), 'src/content')
+  return [publishedContentRoot]
 }
 const contentDirectories = getContentRoots()
 
