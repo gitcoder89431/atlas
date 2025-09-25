@@ -192,7 +192,7 @@ export default function AtlasPage() {
                   <div className="max-w-3xl mx-auto space-y-6 pt-2">
                 {/* Feed */}
                 {loading ? (
-                  <div className="space-y-6">
+                  <div className="space-y-6" style={{ contentVisibility: 'auto' }}>
                     {Array.from({ length: 4 }).map((_, index) => (
                       <div
                         key={index}
@@ -209,7 +209,7 @@ export default function AtlasPage() {
                     ))}
                   </div>
                 ) : (
-                  <div className="space-y-6">
+                  <div className="space-y-6" style={{ contentVisibility: 'auto' }}>
                     {filteredArticles.slice(0, displayCount).map((article, index) => {
                       const readingTime = Math.ceil(article.content.replace(/<[^>]*>/g, '').split(' ').length / 200)
                       const authorString = article.frontmatter.author || 'Unknown'
@@ -257,6 +257,7 @@ export default function AtlasPage() {
                                   {authorPersona ? (
                                     <PersonaBadge
                                       imageSrc={authorPersona.imageSrc}
+                                      alt={author}
                                       size="md"
                                     />
                                   ) : (
@@ -270,6 +271,7 @@ export default function AtlasPage() {
                           persona ? (
                             <PersonaBadge
                               imageSrc={persona.imageSrc}
+                              alt={mainAuthor}
                               size="md"
                             />
                           ) : (

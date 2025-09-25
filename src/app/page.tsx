@@ -3,6 +3,7 @@ import { BackgroundBeams } from '@/components/ui/background-beams'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function Home() {
   return (
@@ -23,10 +24,14 @@ export default function Home() {
 
               {/* Logo */}
               <div className="mb-8 md:mb-10">
-                <img
+                <Image
                   src="/logo.svg"
                   alt="RUIXEN Logo"
+                  width={144}
+                  height={144}
+                  sizes="(min-width: 1024px) 9rem, (min-width: 768px) 8rem, 6rem"
                   className="w-24 h-24 md:w-32 md:h-32 lg:w-36 lg:h-36 mx-auto drop-shadow-xl rounded-full"
+                  priority
                 />
               </div>
 

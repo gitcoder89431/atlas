@@ -1,7 +1,10 @@
+import Image from 'next/image'
+
 interface PersonaBadgeProps {
   imageSrc: string
   size?: 'sm' | 'md' | 'lg' | 'xl'
   className?: string
+  alt?: string
 }
 
 const sizeClasses = {
@@ -14,16 +17,22 @@ const sizeClasses = {
 export function PersonaBadge({
   imageSrc,
   size = 'sm',
-  className = ''
+  className = '',
+  alt = 'Persona avatar',
 }: PersonaBadgeProps) {
   return (
     <div className={`relative ${sizeClasses[size]} overflow-hidden border border-neutral-200 dark:border-neutral-700 flex-shrink-0 ${className}`}>
-      <img
-        className="w-full h-full object-cover"
+      <Image
         src={imageSrc}
-        alt="Persona avatar"
-        loading="lazy"
-        decoding="async"
+        alt={alt}
+        fill
+        sizes={
+          size === 'xl' ? '96px' :
+          size === 'lg' ? '64px' :
+          size === 'md' ? '48px' : '32px'
+        }
+        className="object-cover"
+        priority={false}
       />
     </div>
   )

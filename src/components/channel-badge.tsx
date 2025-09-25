@@ -13,7 +13,7 @@ import {
 interface Channel {
   id: string;
   name: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   color: string;
 }
 
@@ -78,10 +78,7 @@ export function ChannelBadge({
       }}
     >
       {showIcon && (
-        <channel.icon
-          className={iconSizeClasses[size]}
-          style={{ color: channel.color }}
-        />
+        <channel.icon className={iconSizeClasses[size]} />
       )}
       {showName && (
         <span className="font-medium">

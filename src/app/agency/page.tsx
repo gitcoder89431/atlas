@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from 'react'
+import Image from 'next/image'
 import { AppSidebar } from '@/components/app-sidebar'
 import { cn } from '@/lib/utils'
 import {
@@ -36,6 +37,15 @@ export default function AgencyPage() {
               <div
                 key={persona.id}
                 onClick={() => handlePersonaClick(persona)}
+                role="button"
+                aria-label={`Open ${persona.name}`}
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    handlePersonaClick(persona)
+                  }
+                }}
                 className="group relative bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-800 dark:to-neutral-900 aspect-square rounded-xl hover:from-neutral-100 hover:to-neutral-200 dark:hover:from-neutral-700 dark:hover:to-neutral-800 transition-all duration-300 cursor-pointer border border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600 hover:shadow-lg overflow-hidden"
               >
                 {/* Video Background (lazy) */}
@@ -267,12 +277,13 @@ function LazyAutoplayVideo({ src, poster, className }: { src: string; poster: st
         </video>
       ) : (
         // Poster-only until in view (no network fetch for video)
-        <img
+        <Image
           src={poster}
           alt=""
-          loading="lazy"
-          decoding="async"
-          className="w-full h-full object-cover"
+          fill
+          sizes="(min-width: 768px) 20vw, 50vw"
+          priority={false}
+          className="object-cover"
         />
       )}
     </div>

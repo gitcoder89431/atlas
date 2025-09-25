@@ -125,6 +125,7 @@ export function Toc({
                   <div key={index} className="flex gap-3 items-center">
                     <PersonaBadge
                       imageSrc={persona.imageSrc}
+                      alt={persona.name}
                       size="md"
                     />
                     <div className="flex-1">

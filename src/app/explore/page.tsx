@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/table"
 import { PersonaBadge } from '@/components/persona-badge'
 import { ChannelBadge } from '@/components/channel-badge'
-import { Search, Calendar, Clock, Tag } from 'lucide-react'
+import { Search, Calendar, Clock, Tag, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { personaMap } from '@/data/personas'
  
@@ -33,6 +33,7 @@ export default function ExplorePage() {
     }
   }>>([])
   const [loading, setLoading] = useState(true)
+  const [rawQuery, setRawQuery] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
   const router = useRouter()
 
@@ -111,6 +112,12 @@ export default function ExplorePage() {
     fetchArticles()
   }, [])
 
+  // Debounce search input (200ms)
+  useEffect(() => {
+    const id = setTimeout(() => setSearchQuery(rawQuery), 200)
+    return () => clearTimeout(id)
+  }, [rawQuery])
+
   // Filtered articles based on search + selected tags
   const filteredArticles = useMemo(() => {
     const q = searchQuery.trim().toLowerCase()
@@ -149,10 +156,20 @@ export default function ExplorePage() {
                 <input
                   type="text"
                   placeholder="Search by title, author, or tags..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  value={rawQuery}
+                  onChange={(e) => setRawQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 border border-neutral-200 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-500 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
+                {rawQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setRawQuery('')}
+                    aria-label="Clear search"
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 p-1 rounded"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
+                )}
               </div>
               {/* Filters removed per request; tags are ever-expanding */}
             </div>
@@ -166,7 +183,10 @@ export default function ExplorePage() {
           </div>
 
           {/* Table region fills viewport with inner scrolling */}
-          <div className="flex-1 min-h-0 border border-neutral-200 dark:border-neutral-700 rounded-lg overflow-hidden bg-white dark:bg-neutral-800">
+          <div
+            className="flex-1 min-h-0 border border-neutral-200 dark:border-neutral-700 rounded-lg overflow-hidden bg-white dark:bg-neutral-800"
+            style={{ contentVisibility: 'auto' }}
+          >
             {loading ? (
               <div className="p-8 text-center">
                 <div className="text-neutral-500">Loading articles...</div>
@@ -221,6 +241,7 @@ export default function ExplorePage() {
                                   {authorPersona ? (
                                     <PersonaBadge
                                       imageSrc={authorPersona.imageSrc}
+                                      alt={author}
                                       size="sm"
                                     />
                                   ) : (
@@ -236,6 +257,7 @@ export default function ExplorePage() {
                             {persona ? (
                               <PersonaBadge
                                 imageSrc={persona.imageSrc}
+                                alt={mainAuthor}
                                 size="sm"
                               />
                             ) : (

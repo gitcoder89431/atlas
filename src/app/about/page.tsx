@@ -19,7 +19,7 @@ const teamMembers = [
 
 export default function AboutPage() {
   return (
-    <div className={cn("flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 mx-auto border border-neutral-200 dark:border-neutral-700 overflow-hidden h-screen")}>
+    <div className={cn("flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 mx-auto border border-neutral-200 dark:border-neutral-700 overflow-visible md:overflow-hidden min-h-screen md:h-screen")}> 
       <AppSidebar />
       <div className="flex flex-1">
         <div className="p-2 md:p-10 rounded-tl-2xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 flex flex-col gap-2 flex-1 w-full h-full overflow-y-auto">
@@ -39,23 +39,22 @@ export default function AboutPage() {
             {/* Team Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 max-w-5xl mx-auto">
               {teamMembers.map((member, index) => (
-                <div key={index}>
+                <div key={index} className="flex flex-col">
                   {/* Pixelated Canvas Avatar */}
-                  <div className="relative mb-6 mx-auto w-64 h-64 md:w-80 md:h-80">
-                    <div className="absolute inset-0 rounded-2xl" style={{ background: 'linear-gradient(to bottom right, var(--ruixen-primary)/20, var(--ruixen-secondary)/20)' }} />
+                  <div className="relative mx-auto w-64 h-64 md:w-80 md:h-80 mb-12 md:mb-8">
                     <div className="relative rounded-2xl overflow-hidden border-2 border-neutral-200 dark:border-neutral-700">
                       <PixelatedCanvas
                         src={member.image}
                         width={320}
                         height={320}
                         interactive={true}
-                        className="w-full h-full"
+                        className="w-full h-full block"
                       />
                     </div>
                   </div>
 
                   {/* Content */}
-                  <div className="text-center space-y-4">
+                  <div className="text-center space-y-4 mt-8 md:mt-0">
                     <div>
                       <h3 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">
                         {member.name}
