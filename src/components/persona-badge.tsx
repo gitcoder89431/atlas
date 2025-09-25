@@ -22,6 +22,8 @@ export function PersonaBadge({
         className="w-full h-full object-cover"
         src={imageSrc}
         alt="Persona avatar"
+        loading="lazy"
+        decoding="async"
       />
     </div>
   )

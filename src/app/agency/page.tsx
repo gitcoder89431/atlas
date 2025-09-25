@@ -1,6 +1,6 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AppSidebar } from '@/components/app-sidebar'
 import { cn } from '@/lib/utils'
 import {
@@ -38,17 +38,12 @@ export default function AgencyPage() {
                 onClick={() => handlePersonaClick(persona)}
                 className="group relative bg-gradient-to-br from-neutral-50 to-neutral-100 dark:from-neutral-800 dark:to-neutral-900 aspect-square rounded-xl hover:from-neutral-100 hover:to-neutral-200 dark:hover:from-neutral-700 dark:hover:to-neutral-800 transition-all duration-300 cursor-pointer border border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600 hover:shadow-lg overflow-hidden"
               >
-                {/* Video Background */}
-                <video
+                {/* Video Background (lazy) */}
+                <LazyAutoplayVideo
                   className="absolute inset-0 w-full h-full object-cover rounded-xl"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
+                  src={persona.videoSrc}
                   poster={persona.imageSrc}
-                >
-                  <source src={persona.videoSrc} type="video/mp4" />
-                </video>
+                />
 
                 {/* Mobile overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent rounded-xl md:hidden" />
@@ -113,6 +108,7 @@ export default function AgencyPage() {
                       loop
                       muted
                       playsInline
+                      preload="metadata"
                       poster={selectedPersona.imageSrc}
                     >
                       <source src={selectedPersona.videoSrc} type="video/mp4" />
@@ -202,6 +198,83 @@ export default function AgencyPage() {
           )}
         </DialogContent>
       </Dialog>
+    </div>
+  )
+}
+
+// Lazy-load and autoplay mp4 only when in viewport
+function LazyAutoplayVideo({ src, poster, className }: { src: string; poster: string; className?: string }) {
+  const ref = useRef<HTMLDivElement | null>(null)
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+  const [inView, setInView] = useState(false)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+
+    const reducedMotion = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (reducedMotion) return // Respect user preference; keep image poster
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            setInView(true)
+          } else {
+            setInView(false)
+          }
+        }
+      },
+      { root: null, threshold: 0.35 }
+    )
+
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  useEffect(() => {
+    const v = videoRef.current
+    if (!v) return
+    if (inView) {
+      // Try to play when available
+      const play = async () => {
+        try {
+          await v.play()
+        } catch {
+          // Autoplay may be blocked; ignore
+        }
+      }
+      play()
+    } else {
+      v.pause()
+    }
+  }, [inView])
+
+  return (
+    <div ref={ref} className={className}>
+      {inView ? (
+        <video
+          ref={videoRef}
+          className="w-full h-full object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          poster={poster}
+        >
+          <source src={src} type="video/mp4" />
+        </video>
+      ) : (
+        // Poster-only until in view (no network fetch for video)
+        <img
+          src={poster}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          className="w-full h-full object-cover"
+        />
+      )}
     </div>
   )
 }
