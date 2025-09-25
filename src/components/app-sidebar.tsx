@@ -3,6 +3,8 @@
 import React from "react"
 import { cn } from "@/lib/utils"
 import { Sidebar, SidebarBody } from "@/components/ui/sidebar"
+import Image from "next/image"
+import Link from "next/link"
 import {
   Home,
   BookOpen,
@@ -13,27 +15,27 @@ import {
 
 const links = [
   {
-    label: "Home",
+    label: "HOME",
     href: "/",
     icon: <Home className="h-5 w-5 flex-shrink-0" />,
   },
   {
-    label: "Agency",
+    label: "AGENCY",
     href: "/agency",
     icon: <Users className="h-5 w-5 flex-shrink-0" />,
   },
   {
-    label: "Atlas",
+    label: "ATLAS",
     href: "/atlas",
     icon: <BookOpen className="h-5 w-5 flex-shrink-0" />,
   },
   {
-    label: "Explore",
+    label: "EXPLORE",
     href: "/explore",
     icon: <Search className="h-5 w-5 flex-shrink-0" />,
   },
   {
-    label: "About",
+    label: "ABOUT",
     href: "/about",
     icon: <Info className="h-5 w-5 flex-shrink-0" />,
   },
@@ -46,7 +48,7 @@ export function AppSidebar() {
         <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
           <div className="mt-8 flex flex-col gap-2">
             {links.map((link, idx) => (
-              <a
+              <Link
                 key={idx}
                 href={link.href}
                 className={cn(
@@ -57,7 +59,7 @@ export function AppSidebar() {
                 <span className="text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0">
                   {link.label}
                 </span>
-              </a>
+              </Link>
             ))}
           </div>
         </div>

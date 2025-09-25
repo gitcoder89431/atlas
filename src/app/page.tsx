@@ -1,6 +1,7 @@
 import { AppSidebar } from '@/components/app-sidebar'
 import { BackgroundBeams } from '@/components/ui/background-beams'
 import { Button } from '@/components/ui/button'
+import { Footer } from '@/components/ui/footer'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -15,7 +16,7 @@ export default function Home() {
           <BackgroundBeams className="absolute inset-0 z-0" />
 
           {/* Hero Content */}
-          <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 md:px-8">
+          <div className="relative z-10 flex flex-col items-center justify-center flex-1 px-4 md:px-8">
             <div className="text-center bg-white/5 dark:bg-white/3 backdrop-blur-sm rounded-2xl p-6 md:p-8 lg:p-10 shadow-lg border border-white/20 dark:border-white/10">
               {/* Brand Title */}
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-neutral-900 dark:text-neutral-100 mb-8 md:mb-10 tracking-tight">
@@ -56,6 +57,9 @@ export default function Home() {
               </p>
             </div>
           </div>
+
+          {/* Footer */}
+          <Footer />
         </div>
       </div>
     </div>

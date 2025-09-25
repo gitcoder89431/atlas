@@ -712,6 +712,78 @@ export const personas: Persona[] = [
     featured: false
   },
   {
+    id: "plato",
+    name: "Plato",
+    title: "Philosopher & Founder of the Academy",
+    era: "428-348 BCE",
+    videoSrc: "/video/portraits/plato_s01_optimized.mp4",
+    imageSrc: "/images/portraits/plato_s01_optimized.jpg",
+    bio: "Ancient Greek philosopher and student of Socrates who founded the Academy in Athens. His dialogues and theory of Forms have profoundly influenced Western philosophy, politics, and education.",
+    keyContributions: [
+      "Theory of Forms",
+      "Socratic dialogues",
+      "The Republic political philosophy",
+      "Academy founding",
+      "Allegory of the Cave"
+    ],
+    famousQuotes: [
+      "The unexamined life is not worth living.",
+      "We can easily forgive a child who is afraid of the dark; the real tragedy of life is when men are afraid of the light.",
+      "At the touch of love everyone becomes a poet."
+    ],
+    expertise: ["Philosophy", "Political Theory", "Education", "Ethics", "Metaphysics"],
+    nobel: false,
+    featured: false
+  },
+  {
+    id: "seneca",
+    name: "Seneca",
+    title: "Stoic Philosopher & Roman Statesman",
+    era: "4 BCE-65 CE",
+    videoSrc: "/video/portraits/seneca_s01_optimized.mp4",
+    imageSrc: "/images/portraits/seneca_s01_optimized.jpg",
+    bio: "Roman Stoic philosopher, statesman, and advisor to Emperor Nero. His letters and essays on ethics, virtue, and practical wisdom have influenced moral philosophy for over two millennia.",
+    keyContributions: [
+      "Stoic moral philosophy",
+      "Letters to Lucilius",
+      "Moral Essays",
+      "Political advisory role",
+      "Practical wisdom teachings"
+    ],
+    famousQuotes: [
+      "It is not that we have a short time to live, but that we waste a lot of it.",
+      "Every change of fortune is either a trial or a reward.",
+      "We suffer more often in imagination than in reality."
+    ],
+    expertise: ["Philosophy", "Stoicism", "Ethics", "Politics", "Rhetoric"],
+    nobel: false,
+    featured: false
+  },
+  {
+    id: "niccolo_machiavelli",
+    name: "Niccolò Machiavelli",
+    title: "Political Theorist & Renaissance Writer",
+    era: "1469-1527",
+    videoSrc: "/video/portraits/machiavelli_s01_optimized.mp4",
+    imageSrc: "/images/portraits/machiavelli_s01_optimized.jpg",
+    bio: "Italian Renaissance political theorist whose works on statecraft and power politics fundamentally changed how we understand governance. His pragmatic approach to politics continues to influence leaders and thinkers.",
+    keyContributions: [
+      "The Prince political treatise",
+      "Discourses on Livy",
+      "Republican political theory",
+      "Realist approach to politics",
+      "Military strategy insights"
+    ],
+    famousQuotes: [
+      "It is better to be feared than loved, if you cannot be both.",
+      "Everyone sees what you appear to be, few experience what you really are.",
+      "The lion cannot protect himself from traps, and the fox cannot defend himself from wolves."
+    ],
+    expertise: ["Political Science", "Strategy", "Statecraft", "Military Theory", "Renaissance Politics"],
+    nobel: false,
+    featured: false
+  },
+  {
     id: "ruixen",
     name: "Ruixen",
     title: "Atlas Creator & Developer",
