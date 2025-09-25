@@ -1,4 +1,5 @@
 import { getArticleBySlug, getAllArticles } from '@/lib/markdown'
+import type { Metadata } from 'next'
 import { AppSidebar } from '@/components/app-sidebar'
 import { TracingBeam } from '@/components/ui/tracing-beam'
 import { cn } from '@/lib/utils'
@@ -19,6 +20,33 @@ export async function generateStaticParams() {
   return dialogues.map((article) => ({
     slug: article.slug,
   }))
+}
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const { slug } = await params
+  const article = await getArticleBySlug(slug)
+  if (!article || article.frontmatter.type !== 'dialogue') {
+    return {}
+  }
+  const title = `${article.frontmatter.title} — Ruixen Atlas`
+  const descBase = article.frontmatter.summary || article.content.replace(/<[^>]*>/g, '').trim()
+  const description = descBase.length > 200 ? `${descBase.slice(0, 200)}…` : descBase
+  const url = `/atlas/dialogue/${article.slug}`
+  return {
+    title,
+    description,
+    openGraph: {
+      type: 'article',
+      title,
+      description,
+      url,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+  }
 }
 
 // TOC moved to client component '@/components/ui/toc'

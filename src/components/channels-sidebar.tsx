@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
+import type { Article } from "@/lib/markdown";
 import {
   Circle,
   Atom,
@@ -32,18 +33,7 @@ const baseChannels: Omit<Channel, 'count'>[] = [
   { id: "ethics", name: "Ethics", icon: Scale, color: "#ef4444" }
 ];
 
-interface Article {
-  slug: string;
-  content: string;
-  frontmatter: {
-    title: string;
-    author?: string;
-    date: string;
-    tags?: string[];
-    type: 'monologue' | 'dialogue';
-    summary?: string;
-  };
-}
+// Article type comes from lib/markdown (supports additional types but we only use monologue/dialogue logic)
 
 interface ChannelsSidebarProps {
   selectedChannels: string[]; // Changed to array for multi-select

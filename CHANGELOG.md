@@ -1,5 +1,26 @@
 # Atlas Frontend Development Changelog
 
+## Sept 24, 2025 — SSR Explore/Atlas, SEO, Caching
+
+Enhancements
+- Explore and Atlas now server-rendered with incremental static regeneration (`revalidate = 60`). Initial render is fast and SEO-friendly; client hydration handles interactions (search, channels, load more).
+- Added per-article `generateMetadata` for Monologue and Dialogue pages (title/description + OpenGraph/Twitter).
+- Added `sitemap.xml` and `robots.txt` (reads `NEXT_PUBLIC_SITE_URL`; defaults to `https://example.com`).
+- Articles API now returns cache headers: `public, s-maxage=60, stale-while-revalidate=300`.
+ - Added `.env.example` to document required env vars for local and Vercel.
+
+Developer Notes
+- Set `NEXT_PUBLIC_SITE_URL` in Vercel → Project Settings → Environment Variables → all environments, to generate correct absolute URLs in sitemap/robots.
+- Explore: moved data loading server-side; client component handles search/debounce only.
+- Atlas: moved feed data server-side; client component handles channel filters and load-more.
+
+Files Touched
+- `src/app/explore/page.tsx` (SSR page) + `src/app/explore/ExploreClient.tsx` (client UI)
+- `src/app/atlas/page.tsx` (SSR page) + `src/app/atlas/AtlasClient.tsx` (client UI)
+- `src/app/atlas/monologue/[slug]/page.tsx` and `src/app/atlas/dialogue/[slug]/page.tsx` (generateMetadata)
+- `src/app/api/articles/route.ts` (Cache-Control headers)
+- `src/app/sitemap.ts`, `src/app/robots.ts`
+
 ## Current Status: ✅ PRODUCTION READY - Enhanced Channel System with Multi-Select & Conversations
 
 ### 🎉 Latest Updates (Sept 24, 2025):

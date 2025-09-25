@@ -1,29 +1,16 @@
 # Atlas
 
-> Where history's greatest minds meet tomorrow's intelligence
+The bridge between past wisdom and future intelligence.
 
-Atlas is a curated platform for exploring conversations between history's most influential thinkers and the cutting edge of artificial intelligence. Through carefully crafted dialogues and monologues, we bridge centuries of human wisdom with modern computational thinking.
+Atlas is a curated reading experience that blends historical insight with modern thinking across three formats:
 
-## What Atlas Offers
+- Monologues — single‑voice essays inspired by legendary thinkers
+- Discussions — simulated dialogues between historical figures
+- Editorials — Ruixen commentary, context, and curation
 
-**🏛️ Agency** - Meet 27 historical personas, from Nobel laureates to classical philosophers. Each figure comes to life through rich biographical content and authentic voice modeling.
+Explore via the Atlas feed, search in Explore (title, author, tags), and browse featured personas in Agency.
 
-**📚 Atlas Feed** - Discover thought-provoking articles in an elegant, reader-focused interface. Each piece explores deep questions through the lens of great minds.
+Disclaimer
+- The personas, dialogues, and quotes presented here are simulated/creative reconstructions for exploration and learning. They do not represent actual statements by the historical figures. Please verify with original sources where accuracy matters.
 
-**🔍 Explore** - Search and filter through our growing collection of dialogues, monologues, and analytical pieces. Find exactly what sparks your curiosity.
-
-**💭 Dialogues** - Witness conversations that transcend time. Watch Darwin and Turing explore the computational nature of evolution, or see Ostrom and Wiener debate cybernetic governance.
-
-**📝 Monologues** - Experience the world through the eyes of history's greatest thinkers. From Feynman on consciousness to Turing on machine intelligence.
-
-## Featured Thinkers
-
-Our current collection includes minds like Richard Feynman, Marie Curie, Alan Turing, Charles Darwin, Elinor Ostrom, Marcus Aurelius, Hannah Arendt, Leonardo da Vinci, and many others - each contributing their unique perspective to modern questions.
-
-## Philosophy
-
-Atlas believes that the wisdom of the past can illuminate the challenges of tomorrow. By creating authentic conversations between historical figures and contemporary ideas, we explore how timeless insights apply to our rapidly evolving world.
-
----
-
-*Built with Next.js, TypeScript, and Tailwind CSS. Powered by thoughtful design and respect for intellectual heritage.*
+Developer documentation has moved to dev_readme.md.

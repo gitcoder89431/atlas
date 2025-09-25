@@ -1,4 +1,5 @@
 import { getArticleBySlug, getAllMonologues } from '@/lib/markdown'
+import type { Metadata } from 'next'
 import { AppSidebar } from '@/components/app-sidebar'
 import { TracingBeam } from '@/components/ui/tracing-beam'
 import { cn } from '@/lib/utils'
@@ -16,6 +17,33 @@ interface PageProps {
 export async function generateStaticParams() {
   const articles = await getAllMonologues()
   return articles.map((a) => ({ slug: a.slug }))
+}
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const { slug } = await params
+  const article = await getArticleBySlug(slug)
+  if (!article || article.frontmatter.type !== 'monologue') {
+    return {}
+  }
+  const title = `${article.frontmatter.title} — Ruixen Atlas`
+  const descBase = article.frontmatter.summary || article.content.replace(/<[^>]*>/g, '').trim()
+  const description = descBase.length > 200 ? `${descBase.slice(0, 200)}…` : descBase
+  const url = `/atlas/monologue/${article.slug}`
+  return {
+    title,
+    description,
+    openGraph: {
+      type: 'article',
+      title,
+      description,
+      url,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
+  }
 }
 
 export default async function MonologuePage({ params }: PageProps) {
