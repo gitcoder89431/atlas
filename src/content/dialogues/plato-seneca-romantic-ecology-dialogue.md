@@ -2,7 +2,7 @@
 title: "Ancient Wisdom Meets Ecological Crisis: Plato and Seneca on Romantic Ecology"
 date: "2025-09-25"
 tags: ["philosophy", "ecology", "ethics", "plato", "seneca", "romantic_ecology", "dialogue"]
-channel: "philosophy"
+channel: "conversations"
 summary: "A dialogue exploring how ancient philosophical wisdom can guide modern environmental ethics through the lens of romantic ecology."
 type: "dialogue"
 tier: "free"

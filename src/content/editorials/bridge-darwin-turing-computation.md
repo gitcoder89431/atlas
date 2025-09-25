@@ -6,7 +6,7 @@ channel: "editorial"
 summary: "Two foundations meet: selection as learning and computation in life's morphology."
 type: "monologue"
 tier: "free"
-slug: "darwin-turing-bridges"
+slug: "bridge-darwin-turing-computation"
 author: "Ruixen"
 source_run_id: "20250921T000000Z"
 source_files: ["EDITORIAL_darwin_turing_bridges.md"]
