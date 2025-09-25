@@ -75,6 +75,7 @@ export default function AboutPage() {
           </div>
         </div>
       </div>
+      {/* Disclaimer intentionally removed per request */}
     </div>
   )
 }
