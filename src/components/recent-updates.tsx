@@ -86,7 +86,7 @@ export function RecentUpdates({ className }: RecentUpdatesProps) {
           const persona = personaMap[mainAuthor];
 
           // Determine correct route based on channel/content type
-          const getArticleRoute = (slug: string, channel: string) => {
+          const getArticleRoute = (slug: string) => {
             // For now, assume dialogue if multiple authors, monologue if single
             const isDialogue = update.author.includes('&');
             return isDialogue ? `/atlas/dialogue/${slug}` : `/atlas/monologue/${slug}`;
@@ -95,7 +95,7 @@ export function RecentUpdates({ className }: RecentUpdatesProps) {
           return (
             <div key={index}>
               <div
-                onClick={() => router.push(getArticleRoute(update.slug, update.channel))}
+                onClick={() => router.push(getArticleRoute(update.slug))}
                 className={cn(
                   "group p-3 rounded-md transition-all duration-200",
                   "hover:bg-white dark:hover:bg-neutral-700",

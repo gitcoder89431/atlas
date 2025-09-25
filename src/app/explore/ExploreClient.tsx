@@ -2,7 +2,6 @@
 
 import { useMemo, useState, useEffect } from 'react'
 import Link from 'next/link'
-import { cn } from '@/lib/utils'
 import {
   Table,
   TableBody,
@@ -29,7 +28,7 @@ export default function ExploreClient({ articles }: { articles: Article[] }) {
 
   // Helper function to determine article's primary channel
   const getArticleChannel = (article: Article): string | null => {
-    const fm: any = article.frontmatter
+    const fm = article.frontmatter
     const explicitChannel = fm.channel
     if (explicitChannel && typeof explicitChannel === 'string') return explicitChannel
 
@@ -204,4 +203,3 @@ export default function ExploreClient({ articles }: { articles: Article[] }) {
     </div>
   )
 }
-

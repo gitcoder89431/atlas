@@ -37,7 +37,11 @@ export interface Article {
   slug: string
 }
 
-export function inferType(dir: 'posts'|'monologues'|'dialogues'|'editorials', slug: string, data: any): ArticleFrontmatter['type'] {
+export function inferType(
+  dir: 'posts'|'monologues'|'dialogues'|'editorials',
+  slug: string,
+  data: Record<string, unknown>
+): ArticleFrontmatter['type'] {
   if (data?.type) {
     const t = String(data.type).toLowerCase()
     if (t === 'dialogue' || t === 'discussion' || /dialogue/i.test(slug)) return 'dialogue'

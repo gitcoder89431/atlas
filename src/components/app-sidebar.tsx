@@ -3,7 +3,6 @@
 import React from "react"
 import { cn } from "@/lib/utils"
 import { Sidebar, SidebarBody } from "@/components/ui/sidebar"
-import Image from "next/image"
 import Link from "next/link"
 import {
   Home,

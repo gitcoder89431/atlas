@@ -81,7 +81,7 @@ export const InfiniteMovingCards = ({
           >
             <blockquote>
               <span className="relative z-20 text-sm leading-[1.6] text-neutral-800 dark:text-gray-100 font-normal">
-                "{item.quote}"
+                &ldquo;{item.quote}&rdquo;
               </span>
               <div className="relative z-20 mt-6 flex flex-row items-center">
                 <span className="flex flex-col gap-1">

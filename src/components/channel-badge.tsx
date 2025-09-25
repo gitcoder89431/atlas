@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 import {
-  Circle,
   Atom,
   Brain,
   Calculator,

@@ -1,13 +1,10 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { Article } from "@/lib/markdown";
 import {
-  Circle,
   Atom,
-  Brain,
   Calculator,
   Dna,
   Scale,
@@ -48,12 +45,11 @@ export function ChannelsSidebar({
   articles = [],
   className
 }: ChannelsSidebarProps) {
-  const [hoveredChannel, setHoveredChannel] = useState<string | null>(null);
 
   // Helper function to determine article's primary channel (same logic as Atlas page)
   const getArticleChannel = (article: Article): string | null => {
     // First check if explicit channel is defined in frontmatter
-    const explicitChannel = (article.frontmatter as any).channel;
+    const explicitChannel = article.frontmatter.channel;
     if (explicitChannel && typeof explicitChannel === 'string') {
       return explicitChannel;
     }
@@ -165,13 +161,10 @@ export function ChannelsSidebar({
       <nav className="p-2 space-y-1">
         {channels.map((channel) => {
           const isSelected = selectedChannels.includes(channel.id);
-          const isHovered = hoveredChannel === channel.id;
 
           return (
             <label
               key={channel.id}
-              onMouseEnter={() => setHoveredChannel(channel.id)}
-              onMouseLeave={() => setHoveredChannel(null)}
               className={cn(
                 "w-full flex items-center gap-3 px-3 py-2 rounded-md cursor-pointer",
                 "transition-all duration-200 group relative",

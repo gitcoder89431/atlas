@@ -1,6 +1,5 @@
 import { AppSidebar } from '@/components/app-sidebar'
 import { BackgroundBeams } from '@/components/ui/background-beams'
-import { Button } from '@/components/ui/button'
 import { Footer } from '@/components/ui/footer'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'

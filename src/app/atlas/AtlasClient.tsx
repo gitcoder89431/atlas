@@ -19,7 +19,7 @@ export default function AtlasClient({ articles }: { articles: Article[] }) {
   const loadMoreRef = useRef<HTMLDivElement>(null)
 
   const getArticleChannel = (article: Article): string | null => {
-    const fm: any = article.frontmatter
+    const fm = article.frontmatter
     const explicitChannel = fm.channel
     if (explicitChannel && typeof explicitChannel === 'string') return explicitChannel
     const tags = article.frontmatter.tags || []
@@ -211,4 +211,3 @@ export default function AtlasClient({ articles }: { articles: Article[] }) {
     </div>
   )
 }
-
