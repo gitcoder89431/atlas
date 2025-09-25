@@ -13,4 +13,3 @@ Explore via the Atlas feed, search in Explore (title, author, tags), and browse 
 Disclaimer
 - The personas, dialogues, and quotes presented here are simulated/creative reconstructions for exploration and learning. They do not represent actual statements by the historical figures. Please verify with original sources where accuracy matters.
 
-Developer documentation has moved to dev_readme.md.
