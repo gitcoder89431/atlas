@@ -1,6 +1,8 @@
 import { getAllArticles } from '@/lib/markdown'
 import { NextResponse } from 'next/server'
 
+export const runtime = 'nodejs'
+
 export async function GET() {
   try {
     const articles = await getAllArticles()
@@ -10,3 +12,4 @@ export async function GET() {
     return NextResponse.json({ error: 'Failed to fetch articles' }, { status: 500 })
   }
 }
+

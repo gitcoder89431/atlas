@@ -78,10 +78,10 @@ export const TracingBeam = ({
   return (
     <motion.div
       ref={ref}
-      className={cn("relative mx-auto h-full w-full max-w-4xl", className)}
+      className={cn("relative mx-auto h-full w-full max-w-4xl lg:pl-20", className)}
     >
       {/* Hide decorative tracing beam on small and tablet screens to avoid overlap */}
-      <div className="hidden lg:block absolute top-3 -left-4 lg:-left-20">
+      <div className="hidden lg:block absolute top-3 left-0">
         <motion.div
           transition={{ duration: 0.2, delay: 0.5 }}
           style={{

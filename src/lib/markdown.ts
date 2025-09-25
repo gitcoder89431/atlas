@@ -27,12 +27,62 @@ export interface ArticleFrontmatter {
   source_run_id?: string
   source_files?: string[]
   canonical?: string
+  channel?: string
+  published?: boolean
 }
 
 export interface Article {
   frontmatter: ArticleFrontmatter
   content: string
   slug: string
+}
+
+export function inferType(dir: 'posts'|'monologues'|'dialogues', slug: string, data: any): ArticleFrontmatter['type'] {
+  if (data?.type) return data.type
+  if (dir !== 'posts') return (dir.slice(0, -1) as ArticleFrontmatter['type'])
+  // Simple heuristic: filenames containing "dialogue" are dialogues, else monologues
+  return /dialogue/i.test(slug) ? 'dialogue' : 'monologue'
+}
+
+export function inferChannel(fm: ArticleFrontmatter, rawContent: string): string | null {
+  // Frontmatter overrides all
+  if (typeof fm.channel === 'string' && fm.channel.trim()) return fm.channel
+
+  const tags = (fm.tags || []).map(t => t.toLowerCase())
+  const content = (rawContent || '').toLowerCase()
+  const title = (fm.title || '').toLowerCase()
+
+  if (fm.type === 'dialogue') return 'conversations'
+
+  if (tags.some(t => ['biology', 'evolution', 'life', 'natural-selection'].includes(t)) ||
+      content.includes('evolution') || content.includes('darwin') || title.includes('evolution')) {
+    return 'biology'
+  }
+
+  if (tags.some(t => ['physics', 'quantum', 'mechanics'].includes(t)) ||
+      content.includes('physics') || content.includes('quantum') || content.includes('feynman')) {
+    return 'physics'
+  }
+
+  if (tags.some(t => ['mathematics', 'computation', 'logic', 'turing'].includes(t)) ||
+      content.includes('computation') || content.includes('algorithm') || content.includes('turing')) {
+    return 'mathematics'
+  }
+
+  if (tags.some(t => ['ethics', 'morality', 'justice', 'governance'].includes(t)) ||
+      content.includes('ethics') || content.includes('governance') || content.includes('morality')) {
+    return 'ethics'
+  }
+
+  if ((fm.author === 'Ruixen') || tags.some(t => ['editorial', 'commentary'].includes(t))) {
+    return 'editorial'
+  }
+
+  if (tags.includes('philosophy') || content.includes('philosophy')) {
+    return 'philosophy'
+  }
+
+  return null
 }
 
 async function getFromDir(dir: 'posts'|'monologues'|'dialogues', slug: string): Promise<Article | null> {
@@ -46,8 +96,11 @@ async function getFromDir(dir: 'posts'|'monologues'|'dialogues', slug: string): 
     .use(remarkSlug)
     .use(html)
     .process(content)
-  const typeDefault = dir === 'posts' ? 'monologue' : (dir.slice(0, -1) as ArticleFrontmatter['type'])
-  const fm = { type: typeDefault, tier: 'free', ...data, slug } as ArticleFrontmatter
+  const type = inferType(dir, slug, data)
+  const fm: ArticleFrontmatter = { type, tier: 'free', tags: [], summary: '', title: '', date: '', ...data, slug }
+  // Auto-assign channel if not explicitly set
+  const autoChannel = inferChannel(fm, content)
+  if (autoChannel && !fm.channel) fm.channel = autoChannel
   return {
     frontmatter: fm,
     content: processedContent.toString(),

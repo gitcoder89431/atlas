@@ -2,6 +2,7 @@
 title: "A Treatise on Consciousness Adaptation"
 date: "2024-09-20"
 tags: ["consciousness", "feynman", "adaptation"]
+channel: "physics"
 summary: "An exploration of retrocausal reasoning and affective weights in cognitive systems"
 type: "monologue"
 tier: "free"

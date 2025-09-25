@@ -1,7 +1,8 @@
 ---
 title: "When Darwin Meets Turing: Bridges Between Evolution and Computation"
 date: "2025-09-21"
-tags: ["evolution", "computation", "turing", "darwin", "natural_selection", "machine_learning"]
+tags: ["evolution", "computation", "turing", "darwin", "natural_selection", "machine_learning", "editorial"]
+channel: "editorial"
 summary: "Two foundations meet: selection as learning and computation in life's morphology."
 type: "monologue"
 tier: "free"

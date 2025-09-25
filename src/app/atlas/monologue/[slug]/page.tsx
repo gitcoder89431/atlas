@@ -139,25 +139,27 @@ export default async function MonologuePage({ params }: PageProps) {
                     </div>
                   )}
 
-                  {/* Main content */}
-                  <article id="article-root"
-                    className="prose prose-neutral dark:prose-invert prose-lg max-w-prose prose-headings:scroll-mt-8 prose-headings:font-bold prose-h1:text-3xl prose-h1:mb-8 prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4 prose-p:leading-relaxed prose-p:text-neutral-700 dark:prose-p:text-neutral-300 prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 dark:prose-blockquote:bg-blue-950/30 prose-blockquote:py-2 prose-blockquote:px-4 prose-strong:text-neutral-900 dark:prose-strong:text-neutral-100 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline"
-                    dangerouslySetInnerHTML={{ __html: beforeHtml }}
-                  />
-                  {match && (
-                    <>
-                      {/* Decorative separator leading into TL;DR */}
-                      <div className="my-12 flex items-center">
-                        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-blue-300 to-transparent dark:via-blue-700" />
-                        <span className="mx-3 text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400">TL;DR</span>
-                        <div className="h-px flex-1 bg-gradient-to-r from-transparent via-purple-300 to-transparent dark:via-purple-700" />
-                      </div>
-                      <article
-                        className="prose prose-neutral dark:prose-invert prose-lg max-w-prose prose-headings:scroll-mt-8 prose-headings:font-bold prose-h1:text-3xl prose-h1:mb-8 prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4 prose-p:leading-relaxed prose-p:text-neutral-700 dark:prose-p:text-neutral-300 prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 dark:prose-blockquote:bg-blue-950/30 prose-blockquote:py-2 prose-blockquote:px-4 prose-strong:text-neutral-900 dark:prose-strong:text-neutral-100 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline"
-                        dangerouslySetInnerHTML={{ __html: afterHtml }}
-                      />
-                    </>
-                  )}
+                  {/* Main content (wrapped for TOC observation across sections) */}
+                  <div id="article-root">
+                    <article
+                      className="prose prose-neutral dark:prose-invert prose-lg max-w-prose prose-headings:scroll-mt-8 prose-headings:font-bold prose-h1:text-3xl prose-h1:mb-8 prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4 prose-p:leading-relaxed prose-p:text-neutral-700 dark:prose-p:text-neutral-300 prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 dark:prose-blockquote:bg-blue-950/30 prose-blockquote:py-2 prose-blockquote:px-4 prose-strong:text-neutral-900 dark:prose-strong:text-neutral-100 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline"
+                      dangerouslySetInnerHTML={{ __html: beforeHtml }}
+                    />
+                    {match && (
+                      <>
+                        {/* Decorative separator leading into TL;DR */}
+                        <div className="my-12 flex items-center">
+                          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-blue-300 to-transparent dark:via-blue-700" />
+                          <span className="mx-3 text-xs uppercase tracking-wide text-neutral-500 dark:text-neutral-400">TL;DR</span>
+                          <div className="h-px flex-1 bg-gradient-to-r from-transparent via-purple-300 to-transparent dark:via-purple-700" />
+                        </div>
+                        <article
+                          className="prose prose-neutral dark:prose-invert prose-lg max-w-prose prose-headings:scroll-mt-8 prose-headings:font-bold prose-h1:text-3xl prose-h1:mb-8 prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6 prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-4 prose-p:leading-relaxed prose-p:text-neutral-700 dark:prose-p:text-neutral-300 prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 dark:prose-blockquote:bg-blue-950/30 prose-blockquote:py-2 prose-blockquote:px-4 prose-strong:text-neutral-900 dark:prose-strong:text-neutral-100 prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline"
+                          dangerouslySetInnerHTML={{ __html: afterHtml }}
+                        />
+                      </>
+                    )}
+                  </div>
 
                   {/* Continue Exploration Section (bottom card) */}
                   <div className="mt-16 p-6 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/30 dark:to-purple-950/30 rounded-xl border border-blue-200 dark:border-blue-800">
@@ -191,16 +193,19 @@ export default async function MonologuePage({ params }: PageProps) {
               </TracingBeam>
             </div>
 
-            {/* Right Sidebar - TOC with author profile */}
-            <div className="hidden xl:block">
+            {/* Right Sidebar - TOC */}
+            <div className="hidden xl:block w-64 shrink-0">
               <Toc
-                contentHtml={beforeHtml}
+                contentHtml={contentAfterIntro}
                 author={article.frontmatter.author}
+                scrollContainerId="scroll-container"
+                articleRootId="article-root"
               />
             </div>
           </div>
         </div>
       </div>
+
     </div>
   )
 }

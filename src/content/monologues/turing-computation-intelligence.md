@@ -2,6 +2,7 @@
 title: "On the Architecture of Thought: From Mechanical Computation to Machine Intelligence"
 date: "2025-09-21"
 tags: ["turing", "computation", "artificial_intelligence", "machine_learning", "consciousness"]
+channel: "mathematics"
 summary: "Turing's journey from mechanical computation to artificial intelligence reveals the computational foundations of thought itself."
 type: "monologue"
 tier: "free"

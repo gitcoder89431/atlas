@@ -1,6 +1,27 @@
 # Atlas Frontend Development Changelog
 
-## Current Status: ✅ PRODUCTION READY - Homepage Enhanced & All Features Complete
+## Current Status: ✅ PRODUCTION READY - Enhanced Channel System with Multi-Select & Conversations
+
+### 🎉 Latest Updates (Sept 24, 2025):
+
+**Multi-Select Channel System:**
+- ✅ **Removed "All Channels"** - cleaner interface
+- ✅ **All channels checked by default** - shows everything initially
+- ✅ **Multi-select checkboxes** - view multiple channels simultaneously
+- ✅ **Beautiful shadcn checkboxes** - no more ugly white HTML boxes
+- ✅ **At least 1 required** - prevents empty selection
+- ✅ **Color-coded checkboxes** - match channel branding
+
+**New Conversations Channel:**
+- ✅ **Added Conversations channel** for dialogues (purple MessageCircle icon)
+- ✅ **Auto-detects dialogue articles** - cross-topical content gets special treatment
+- ✅ **Updated both dialogue articles** to Conversations channel
+
+**Automated Channel Counts:**
+- ✅ **Dynamic counting** - no more manual updates needed
+- ✅ **Real-time updates** - counts adjust automatically when articles added/removed
+
+**Current Distribution:** Conversations: 2, Biology: 1, Physics: 1, Mathematics: 1, Ethics: 0, Editorial: 1
 
 ### 🎯 What We've Built
 

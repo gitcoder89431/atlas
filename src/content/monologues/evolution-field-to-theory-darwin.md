@@ -2,6 +2,7 @@
 title: "Evolution: From Field to Theory"
 date: "2024-09-21"
 tags: ["evolution", "natural-selection", "biogeography", "morphology"]
+channel: "biology"
 summary: "A personal reflection on how field observations aboard the Beagle revealed the patterns that led to understanding evolution through natural selection"
 type: "monologue"
 tier: "free"

@@ -2,6 +2,7 @@
 title: "A Conversation Across Centuries: Darwin and Turing on Intelligence"
 date: "2025-09-21"
 tags: ["evolution", "computation", "darwin", "turing", "artificial_intelligence", "dialogue"]
+channel: "conversations"
 summary: "A dialogue exploring computation in biology and the evolutionary foundations of artificial intelligence."
 type: "dialogue"
 tier: "free"
