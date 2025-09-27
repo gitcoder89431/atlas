@@ -1,7 +1,7 @@
 ---
 title: "When Aristotle Meets Feynman: Categories as AI Architecture"
 date: "2025-09-26"
-tags: ["aristotle", "feynman", "categories", "ai", "neural-networks", "pattern-recognition", "classification"]
+tags: ["aristotle", "feynman", "categories", "ai-architecture", "neural-networks", "pattern-recognition", "classification", "systematic-philosophy", "neurosymbolic-systems", "logical-reasoning"]
 channel: "conversations"
 summary: "Aristotle and Feynman explore how categorical thinking and systematic classification could inform neural network architecture and pattern recognition AI"
 type: "dialogue"

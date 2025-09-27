@@ -134,6 +134,7 @@ export function MusicToggle({ className }: { className?: string }) {
   const [isMusicOn, setIsMusicOn] = useState(false)
   const [stationIndex, setStationIndex] = useState(INITIAL_STATION_INDEX)
   const [isExpanded, setIsExpanded] = useState(false)
+  const [isDesktop, setIsDesktop] = useState(false)
 
   const playerRef = useRef<YouTubePlayer | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -145,6 +146,34 @@ export function MusicToggle({ className }: { className?: string }) {
   const activeStation = useMemo(() => STATIONS[stationIndex] ?? STATIONS[0], [stationIndex])
 
   useEffect(() => {
+    if (typeof window === 'undefined') return
+    const mediaQuery = window.matchMedia('(min-width: 768px)')
+    const handleChange = (event: MediaQueryListEvent) => {
+      setIsDesktop(event.matches)
+    }
+    setIsDesktop(mediaQuery.matches)
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', handleChange)
+      return () => mediaQuery.removeEventListener('change', handleChange)
+    }
+    mediaQuery.addListener(handleChange)
+    return () => mediaQuery.removeListener(handleChange)
+  }, [])
+
+  useEffect(() => {
+    if (!isDesktop) {
+      if (playerRef.current) {
+        try {
+          playerRef.current.stopVideo()
+        } catch {
+          // ignore
+        }
+        playerRef.current.destroy()
+        playerRef.current = null
+      }
+      return
+    }
+
     let isMounted = true
 
     loadYouTubeIframeAPI()
@@ -210,9 +239,10 @@ export function MusicToggle({ className }: { className?: string }) {
         playerRef.current = null
       }
     }
-  }, [])
+  }, [isDesktop])
 
   useEffect(() => {
+    if (!isDesktop) return
     const player = playerRef.current
     if (!player || status !== 'ready') return
 
@@ -239,7 +269,7 @@ export function MusicToggle({ className }: { className?: string }) {
         // ignore
       }
     }
-  }, [isMusicOn, status])
+  }, [isDesktop, isMusicOn, status])
 
   useEffect(() => {
     if (status === 'error' && isMusicOn) {
@@ -248,10 +278,12 @@ export function MusicToggle({ className }: { className?: string }) {
   }, [status, isMusicOn])
 
   useEffect(() => {
+    if (!isDesktop) return
     isMusicOnRef.current = isMusicOn
-  }, [isMusicOn])
+  }, [isDesktop, isMusicOn])
 
   useEffect(() => {
+    if (!isDesktop) return
     const player = playerRef.current
     if (!player || status === 'loading') return
 
@@ -275,7 +307,7 @@ export function MusicToggle({ className }: { className?: string }) {
     } catch {
       // ignore, onError handler will cope
     }
-  }, [activeStation, status])
+  }, [activeStation, isDesktop, status])
 
   const toggleMusic = () => {
     if (status !== 'ready') return
@@ -283,6 +315,7 @@ export function MusicToggle({ className }: { className?: string }) {
   }
 
   const handleStationChange = (direction: 'next' | 'prev') => {
+    if (!isDesktop) return
     if (STATIONS.length <= 1) return
     if (status === 'loading') return
 
@@ -310,6 +343,10 @@ export function MusicToggle({ className }: { className?: string }) {
   ) : (
     <Play className="h-5 w-5" />
   )
+
+  if (!isDesktop) {
+    return null
+  }
 
   return (
     <div className={cn('pointer-events-none fixed bottom-6 right-6 z-50 flex flex-col items-end gap-2', className)}>
