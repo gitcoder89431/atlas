@@ -289,7 +289,6 @@ export function MusicToggle({ className }: { className?: string }) {
     errorCountRef.current = 0
     setStationIndex((prev) => {
       const count = STATIONS.length
-      if (count === 0) return prev
       return direction === 'next'
         ? (prev + 1) % count
         : (prev + count - 1) % count
