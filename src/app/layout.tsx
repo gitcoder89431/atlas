@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Chakra_Petch } from "next/font/google";
 import "./globals.css";
+import { MusicToggle } from "@/components/music-toggle";
 
 const chakraPetch = Chakra_Petch({
   variable: "--font-chakra-petch",
@@ -29,10 +30,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${chakraPetch.variable} antialiased`}
-      >
+      <body className={`${chakraPetch.variable} antialiased`}>
         {children}
+        <MusicToggle />
       </body>
     </html>
   );

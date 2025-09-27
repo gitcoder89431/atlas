@@ -143,14 +143,20 @@ export default function AtlasClient({ articles }: { articles: Article[] }) {
                             </h2>
                             <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base line-clamp-3">{summary}</p>
                             <div className="flex items-center justify-between pt-2 text-sm text-neutral-500 dark:text-neutral-400">
-                              <div className="flex items-center gap-1">
-                                <Clock className="h-3 w-3" />
-                                <span>{readingTime} min read</span>
-                              </div>
+                          <div className="flex items-center gap-1">
+                            <Clock className="h-3 w-3" />
+                            <span className="sm:hidden">{readingTime} min</span>
+                            <span className="hidden sm:inline">{readingTime} min read</span>
+                          </div>
                               {article.frontmatter.tags && article.frontmatter.tags.length > 0 && (
                                 <div className="flex items-center gap-1">
                                   <Tag className="h-3 w-3" />
-                                  <span>{article.frontmatter.tags.slice(0, 4).join(', ')}</span>
+                                  <span className="sm:hidden">
+                                    {article.frontmatter.tags.slice(0, 2).join(', ')}
+                                  </span>
+                                  <span className="hidden sm:inline">
+                                    {article.frontmatter.tags.slice(0, 4).join(', ')}
+                                  </span>
                                 </div>
                               )}
                             </div>
