@@ -10,6 +10,7 @@ import {
   Users,
   Info,
   Search,
+  Mic,
 } from "lucide-react"
 
 const links = [
@@ -32,6 +33,11 @@ const links = [
     label: "EXPLORE",
     href: "/explore",
     icon: <Search className="h-5 w-5 flex-shrink-0" />,
+  },
+  {
+    label: "PODCAST",
+    href: "/podcast",
+    icon: <Mic className="h-5 w-5 flex-shrink-0" />,
   },
   {
     label: "ABOUT",
