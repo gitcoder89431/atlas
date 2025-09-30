@@ -609,12 +609,6 @@ To participate in this divine knowledge through the exercise of our rational fac
 
 ---
 
-## Notes and references
-
-<!-- Citations completed with standard scholarly editions. All quotations verified against authoritative translations. Contested attributions marked as "Trad." -->
-
----
-
 ## Bibliography
 
 ### Primary Sources
