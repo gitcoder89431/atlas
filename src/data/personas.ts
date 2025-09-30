@@ -373,7 +373,7 @@ export const personas: Persona[] = [
     ],
     expertise: ["Electrical Engineering", "Invention", "Physics", "Innovation", "Wireless Technology"],
     nobel: false,
-    featured: false
+    featured: true
   },
   {
     id: "claude_shannon",
@@ -805,7 +805,7 @@ export const personas: Persona[] = [
     ],
     expertise: ["Software Development", "AI Systems", "Digital Philosophy", "Content Curation", "Evolutionary Systems"],
     nobel: false,
-    featured: true
+    featured: false
   }
 ]
 
