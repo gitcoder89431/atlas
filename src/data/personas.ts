@@ -806,6 +806,78 @@ export const personas: Persona[] = [
     expertise: ["Software Development", "AI Systems", "Digital Philosophy", "Content Curation", "Evolutionary Systems"],
     nobel: false,
     featured: false
+  },
+  {
+    id: "pi",
+    name: "π",
+    title: "Mathematical Constant & Geometric Principle",
+    era: "Eternal",
+    videoSrc: "/images/portraits/pi_s01_optimized.jpg",
+    imageSrc: "/images/portraits/pi_s01_optimized.jpg",
+    bio: "The mathematical constant π represents the ratio of a circle's circumference to its diameter, approximately 3.14159. This fundamental constant appears throughout mathematics, physics, and engineering, from geometry to quantum mechanics to signal processing.",
+    keyContributions: [
+      "Fundamental geometric ratio (circumference/diameter)",
+      "Foundation for trigonometry and circular functions",
+      "Essential in calculus and mathematical analysis",
+      "Critical in physics (wave equations, quantum mechanics)",
+      "Core to Fourier analysis and signal processing"
+    ],
+    famousQuotes: [
+      "I am the bridge between the finite and infinite.",
+      "In every circle, I emerge as the eternal ratio.",
+      "My digits dance without pattern, yet my meaning is precise."
+    ],
+    expertise: ["Geometry", "Analysis", "Physics", "Engineering", "Number Theory"],
+    nobel: false,
+    featured: false
+  },
+  {
+    id: "e",
+    name: "e",
+    title: "Euler's Number & Natural Growth Constant",
+    era: "Eternal",
+    videoSrc: "/images/portraits/e_s01_optimized.jpg",
+    imageSrc: "/images/portraits/e_s01_optimized.jpg",
+    bio: "Euler's number e (approximately 2.71828) is the base of natural logarithms and represents the fundamental constant of exponential growth and decay. This transcendental number appears in calculus, compound interest, population dynamics, and throughout mathematical analysis.",
+    keyContributions: [
+      "Base of natural logarithms and exponential function",
+      "Foundation for calculus and differential equations",
+      "Core to compound interest and growth models",
+      "Essential in probability and statistics",
+      "Critical in complex analysis and Euler's identity"
+    ],
+    famousQuotes: [
+      "I am the rhythm of continuous growth, the heartbeat of change itself.",
+      "In every moment of transformation, I emerge as the natural rate.",
+      "My power lies not in size, but in the elegance of continuous compounding."
+    ],
+    expertise: ["Calculus", "Exponential Growth", "Natural Logarithms", "Differential Equations", "Complex Analysis"],
+    nobel: false,
+    featured: false
+  },
+  {
+    id: "einstein",
+    name: "Albert Einstein",
+    title: "Theoretical Physicist & Nobel Laureate",
+    era: "1879-1955",
+    videoSrc: "/video/portraits/einstein_v01_optimized.mp4",
+    imageSrc: "/images/portraits/einstein_s01_optimized.jpg",
+    bio: "Revolutionary theoretical physicist who developed the theory of relativity and made fundamental contributions to quantum mechanics. Einstein's work fundamentally changed our understanding of space, time, energy, and gravity. Nobel Prize winner in Physics (1921).",
+    keyContributions: [
+      "Theory of Special Relativity (E=mc²)",
+      "Theory of General Relativity",
+      "Photoelectric effect explanation",
+      "Brownian motion theory",
+      "Unified field theory attempts"
+    ],
+    famousQuotes: [
+      "Imagination is more important than knowledge.",
+      "God does not play dice with the universe.",
+      "The most beautiful thing we can experience is the mysterious."
+    ],
+    expertise: ["Theoretical Physics", "Relativity", "Quantum Mechanics", "Cosmology", "Philosophy of Science"],
+    nobel: true,
+    featured: false
   }
 ]
 
