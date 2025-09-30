@@ -19,7 +19,7 @@ export interface ArticleFrontmatter {
   date: string
   tags: string[]
   summary: string
-  type: 'monologue' | 'dialogue' | 'treatise' | 'outline'
+  type: 'monologue' | 'dialogue' | 'treatise' | 'outline' | 'book'
   tier: 'free' | 'premium' | 'dev'
   slug: string
   thumbnail?: string
@@ -38,7 +38,7 @@ export interface Article {
 }
 
 export function inferType(
-  dir: 'posts'|'monologues'|'dialogues'|'editorials',
+  dir: 'posts'|'monologues'|'dialogues'|'editorials'|'books',
   slug: string,
   data: Record<string, unknown>
 ): ArticleFrontmatter['type'] {
@@ -46,9 +46,10 @@ export function inferType(
     const t = String(data.type).toLowerCase()
     if (t === 'dialogue' || t === 'discussion' || /dialogue/i.test(slug)) return 'dialogue'
     if (t === 'monologue' || t === 'post' || t === 'editorial') return 'monologue'
-    if (t === 'treatise' || t === 'outline') return t as ArticleFrontmatter['type']
+    if (t === 'treatise' || t === 'outline' || t === 'book') return t as ArticleFrontmatter['type']
   }
   if (dir === 'editorials') return 'monologue' // Bridge pieces are monologue type
+  if (dir === 'books') return 'book' // Books directory contains book type content
   if (dir !== 'posts') return (dir.slice(0, -1) as ArticleFrontmatter['type'])
   // Simple heuristic: filenames containing "dialogue" are dialogues, else monologues
   return /dialogue/i.test(slug) ? 'dialogue' : 'monologue'
@@ -62,7 +63,12 @@ export function inferChannel(fm: ArticleFrontmatter, rawContent: string): string
   const content = (rawContent || '').toLowerCase()
   const title = (fm.title || '').toLowerCase()
 
-  // Removed auto-assignment of dialogues to 'conversations' - let explicit channel assignment work
+  // Books (for book content and literary works)
+  if (tags.some(t => ['book', 'literature', 'manuscript', 'publication'].includes(t)) ||
+      content.includes('chapter') && content.includes('bibliography') || 
+      title.includes('book') || fm.type === 'book') {
+    return 'books'
+  }
 
   if (tags.some(t => ['biology', 'evolution', 'life', 'natural-selection'].includes(t)) ||
       content.includes('evolution') || content.includes('darwin') || title.includes('evolution')) {
@@ -95,7 +101,7 @@ export function inferChannel(fm: ArticleFrontmatter, rawContent: string): string
   return null
 }
 
-async function getFromDir(root: string, dir: 'posts'|'monologues'|'dialogues'|'editorials', slug: string): Promise<Article | null> {
+async function getFromDir(root: string, dir: 'posts'|'monologues'|'dialogues'|'editorials'|'books', slug: string): Promise<Article | null> {
   const fullPath = path.join(root, dir, `${slug}.md`)
   if (!fs.existsSync(fullPath)) return null
   const fileContents = fs.readFileSync(fullPath, 'utf8')
@@ -121,8 +127,8 @@ async function getFromDir(root: string, dir: 'posts'|'monologues'|'dialogues'|'e
 }
 
 export async function getArticleBySlug(slug: string): Promise<Article | null> {
-  // Try posts, then monologues, then dialogues, then editorials
-  const dirs: ('posts'|'monologues'|'dialogues'|'editorials')[] = ['posts','monologues','dialogues','editorials']
+  // Try posts, then monologues, then dialogues, then editorials, then books
+  const dirs: ('posts'|'monologues'|'dialogues'|'editorials'|'books')[] = ['posts','monologues','dialogues','editorials','books']
   for (const root of contentDirectories) {
     for (const d of dirs) {
       const art = await getFromDir(root, d, slug)
@@ -134,7 +140,7 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
 
 export async function getAllArticles(): Promise<Article[]> {
   try {
-    const dirs: ('posts'|'monologues'|'dialogues'|'editorials')[] = ['posts','monologues','dialogues','editorials']
+    const dirs: ('posts'|'monologues'|'dialogues'|'editorials'|'books')[] = ['posts','monologues','dialogues','editorials','books']
     const gathered: Article[] = []
     const seen = new Set<string>() // dedupe by dir+slug across roots
     for (const root of contentDirectories) {
@@ -174,4 +180,8 @@ export async function getAllDialogues(): Promise<Article[]> {
 
 export async function getAllMonologues(): Promise<Article[]> {
   return getArticlesByType('monologue')
+}
+
+export async function getAllBooks(): Promise<Article[]> {
+  return getArticlesByType('book')
 }

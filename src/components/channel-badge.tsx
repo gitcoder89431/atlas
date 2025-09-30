@@ -1,24 +1,10 @@
 import { cn } from "@/lib/utils";
-import {
-  Atom,
-  Brain,
-  Calculator,
-  Dna,
-  Scale,
-  Zap
-} from "lucide-react";
-
-interface Channel {
-  id: string;
-  name: string;
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-  color: string;
-}
 
 
 // Centralized channel definitions (matches channels-sidebar.tsx)
 const CHANNELS = {
   editorial: { name: "Editorial", color: "#ec4899", icon: "⚡" },
+  books: { name: "Books", color: "#8b5cf6", icon: "📚" },
   biology: { name: "Biology", color: "#f59e0b", icon: "🧬" },
   physics: { name: "Physics", color: "#3b82f6", icon: "⚛️" },
   mathematics: { name: "Mathematics", color: "#10b981", icon: "🧮" },

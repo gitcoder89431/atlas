@@ -12,7 +12,7 @@ import { personaMap } from '@/data/personas'
 import type { Article } from '@/lib/markdown'
 
 export default function AtlasClient({ articles }: { articles: Article[] }) {
-  const [selectedChannels, setSelectedChannels] = useState<string[]>(['editorial', 'conversations', 'biology', 'physics', 'mathematics', 'ethics'])
+  const [selectedChannels, setSelectedChannels] = useState<string[]>(['editorial', 'books', 'conversations', 'biology', 'physics', 'mathematics', 'ethics'])
   const [displayCount, setDisplayCount] = useState(3)
   const [loadingMore, setLoadingMore] = useState(false)
   const observerRef = useRef<IntersectionObserver | null>(null)
@@ -93,10 +93,15 @@ export default function AtlasClient({ articles }: { articles: Article[] }) {
                     const authors = authorString.includes('&') ? authorString.split('&').map((a: string) => a.trim()) : [authorString]
                     const mainAuthor = authors[0]
                     const persona = personaMap[mainAuthor]
-                    const href = article.frontmatter.type === 'dialogue' ? `/atlas/dialogue/${article.slug}` : `/atlas/monologue/${article.slug}`
+                    const href = article.frontmatter.type === 'dialogue'
+                      ? `/atlas/dialogue/${article.slug}`
+                      : article.frontmatter.type === 'book'
+                        ? `/atlas/books/${article.slug}`
+                        : `/atlas/monologue/${article.slug}`
                     const contentText = article.content.replace(/<[^>]*>/g, '')
                     const firstParagraph = contentText.split('\n\n')[0] || contentText.slice(0, 200)
-                    const summary = firstParagraph.length > 200 ? firstParagraph.slice(0, 200) + '...' : firstParagraph
+                    const autoSummary = firstParagraph.length > 200 ? firstParagraph.slice(0, 200) + '...' : firstParagraph
+                    const summary = article.frontmatter.summary || autoSummary
                     const articleChannel = getArticleChannel(article)
 
                     return (

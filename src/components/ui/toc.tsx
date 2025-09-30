@@ -3,6 +3,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { PersonaBadge } from "@/components/persona-badge";
 import { getPersonaByName } from "@/data/personas";
+import { ChevronDown, ChevronRight } from "lucide-react";
 
 export function Toc({
   contentHtml,
@@ -29,10 +30,47 @@ export function Toc({
     });
   }, [contentHtml]);
 
+  // Group items into chapters (h2) and their subsections (h3)
+  const chapters = useMemo(() => {
+    const grouped: Array<{ chapter: typeof items[0]; subsections: typeof items }> = [];
+    let currentChapter: typeof items[0] | null = null;
+    let currentSubsections: typeof items = [];
+
+    items.forEach(item => {
+      if (item.level === 2) {
+        // Save previous chapter if exists
+        if (currentChapter) {
+          grouped.push({ chapter: currentChapter, subsections: currentSubsections });
+        }
+        // Start new chapter
+        currentChapter = item;
+        currentSubsections = [];
+      } else if (item.level === 3 && currentChapter) {
+        // Add subsection to current chapter
+        currentSubsections.push(item);
+      }
+    });
+
+    // Add the last chapter
+    if (currentChapter) {
+      grouped.push({ chapter: currentChapter, subsections: currentSubsections });
+    }
+
+    return grouped;
+  }, [items]);
+
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [expandedChapters, setExpandedChapters] = useState<Set<string>>(new Set());
   const navRef = useRef<HTMLDivElement>(null);
   const linkRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
   const [scrolled, setScrolled] = useState(false);
+
+  // Initialize with first chapter expanded
+  useEffect(() => {
+    if (chapters.length > 0 && expandedChapters.size === 0) {
+      setExpandedChapters(new Set([chapters[0].chapter.id]));
+    }
+  }, [chapters, expandedChapters.size]);
 
   useEffect(() => {
     const container = document.getElementById(scrollContainerId) as HTMLElement | null;
@@ -59,8 +97,6 @@ export function Toc({
     };
   }, [contentHtml, scrollContainerId, articleRootId]);
 
-  // No animated indicator; keep logic simple and responsive
-
   const onClick = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault();
     const container = document.getElementById(scrollContainerId) as HTMLElement | null;
@@ -72,7 +108,19 @@ export function Toc({
     container.scrollTo({ top, behavior: "smooth" });
   };
 
-  if (!items.length) return null;
+  const toggleChapter = (chapterId: string) => {
+    setExpandedChapters(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(chapterId)) {
+        newSet.delete(chapterId);
+      } else {
+        newSet.add(chapterId);
+      }
+      return newSet;
+    });
+  };
+
+  if (!chapters.length) return null;
 
   return (
     <div
@@ -82,29 +130,76 @@ export function Toc({
       )}
       style={{ maxHeight: "calc(100vh - 4rem)" }}
     >
-      <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-3 text-sm">On this page</h3>
+      <h3 className="font-semibold text-neutral-900 dark:text-neutral-100 mb-3 text-sm">Table of Contents</h3>
       <div ref={navRef} className="relative">
-        <nav className="space-y-2 pl-1 pr-2 overflow-auto"
+        <nav className="space-y-1 pl-1 pr-2 overflow-auto"
              style={{ maxHeight: "calc(100vh - 10rem)" }}>
-          {items.map((item) => (
-            <a
-              ref={(el) => {
-                linkRefs.current[item.id] = el
-              }}
-              key={item.idx}
-              href={`#${item.id}`}
-              onClick={onClick(item.id)}
-              className={cn(
-                "block text-sm rounded-md px-2 py-1 transition-colors border-l-2 break-words whitespace-normal leading-snug",
-                item.level === 2
-                  ? "text-neutral-700 dark:text-neutral-300 border-transparent"
-                  : "text-neutral-500 dark:text-neutral-500 ml-3 border-transparent",
-                activeId === item.id && "border-blue-500 text-blue-600 dark:text-blue-400 bg-neutral-50 dark:bg-neutral-800/50"
-              )}
-            >
-              {item.text}
-            </a>
-          ))}
+          {chapters.map(({ chapter, subsections }) => {
+            const isExpanded = expandedChapters.has(chapter.id);
+            const isChapterActive = activeId === chapter.id;
+            const hasActiveSubsection = subsections.some(sub => activeId === sub.id);
+            
+            return (
+              <div key={chapter.id} className="space-y-1">
+                {/* Chapter Header */}
+                <div className="flex items-center">
+                  <button
+                    onClick={() => toggleChapter(chapter.id)}
+                    className="flex items-center gap-1 flex-1 text-left p-1 rounded hover:bg-neutral-50 dark:hover:bg-neutral-800/50 transition-colors"
+                  >
+                    {subsections.length > 0 && (
+                      isExpanded ? (
+                        <ChevronDown className="w-3 h-3 text-neutral-400 flex-shrink-0" />
+                      ) : (
+                        <ChevronRight className="w-3 h-3 text-neutral-400 flex-shrink-0" />
+                      )
+                    )}
+                    <span className="flex-1 min-w-0">
+                      <a
+                        ref={(el) => {
+                          linkRefs.current[chapter.id] = el
+                        }}
+                        href={`#${chapter.id}`}
+                        onClick={onClick(chapter.id)}
+                        className={cn(
+                          "block text-sm font-medium rounded-md px-2 py-1 transition-colors border-l-2 break-words whitespace-normal leading-snug",
+                          isChapterActive || hasActiveSubsection
+                            ? "border-blue-500 text-blue-600 dark:text-blue-400 bg-neutral-50 dark:bg-neutral-800/50"
+                            : "text-neutral-700 dark:text-neutral-300 border-transparent hover:bg-neutral-50 dark:hover:bg-neutral-800/30"
+                        )}
+                      >
+                        {chapter.text}
+                      </a>
+                    </span>
+                  </button>
+                </div>
+
+                {/* Subsections */}
+                {isExpanded && subsections.length > 0 && (
+                  <div className="ml-4 space-y-1">
+                    {subsections.map((subsection) => (
+                      <a
+                        key={subsection.id}
+                        ref={(el) => {
+                          linkRefs.current[subsection.id] = el
+                        }}
+                        href={`#${subsection.id}`}
+                        onClick={onClick(subsection.id)}
+                        className={cn(
+                          "block text-sm rounded-md px-2 py-1 transition-colors border-l-2 break-words whitespace-normal leading-snug",
+                          activeId === subsection.id
+                            ? "border-blue-500 text-blue-600 dark:text-blue-400 bg-neutral-50 dark:bg-neutral-800/50"
+                            : "text-neutral-500 dark:text-neutral-500 border-transparent hover:bg-neutral-50 dark:hover:bg-neutral-800/30"
+                        )}
+                      >
+                        {subsection.text}
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </nav>
       </div>
       {author && (() => {
