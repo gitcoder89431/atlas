@@ -87,6 +87,10 @@ export function RecentUpdates({ className }: RecentUpdatesProps) {
 
           // Determine correct route based on channel/content type
           const getArticleRoute = (slug: string) => {
+            // Check if it's a book based on slug pattern
+            if (slug.includes('essential-') || slug.includes('-essential')) {
+              return `/atlas/books/${slug}`;
+            }
             // For now, assume dialogue if multiple authors, monologue if single
             const isDialogue = update.author.includes('&');
             return isDialogue ? `/atlas/dialogue/${slug}` : `/atlas/monologue/${slug}`;

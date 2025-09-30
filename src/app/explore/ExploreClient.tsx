@@ -127,6 +127,8 @@ export default function ExploreClient({ articles }: { articles: Article[] }) {
               const articleChannel = getArticleChannel(article)
               const href = article.frontmatter.type === 'dialogue'
                 ? `/atlas/dialogue/${article.slug}`
+                : article.frontmatter.type === 'book'
+                ? `/atlas/books/${article.slug}`
                 : `/atlas/monologue/${article.slug}`
 
               return (

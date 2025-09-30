@@ -13,7 +13,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const articles = await getAllArticles()
   const articleRoutes: MetadataRoute.Sitemap = articles.map((a) => ({
-    url: `${baseUrl}/atlas/${a.frontmatter.type === 'dialogue' ? 'dialogue' : 'monologue'}/${a.slug}`,
+    url: `${baseUrl}/atlas/${a.frontmatter.type === 'dialogue' ? 'dialogue' : a.frontmatter.type === 'book' ? 'books' : 'monologue'}/${a.slug}`,
     lastModified: new Date(a.frontmatter.date || Date.now()),
     changeFrequency: 'monthly',
     priority: 0.6,
