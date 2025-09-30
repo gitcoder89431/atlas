@@ -15,31 +15,31 @@ interface RecentUpdate {
   slug: string;
 }
 
-// Mock data - in real app this would be generated from article dates
+// Recent updates - actual latest content from Atlas
 const recentUpdates: RecentUpdate[] = [
   {
     type: "new",
-    title: "Evolution from Field to Theory",
-    author: "Charles Darwin",
+    title: "When Ada Meets Shannon: Mathematical Method as Information Architecture",
+    author: "Ada Lovelace & Claude Shannon",
     time: "2h",
-    channel: "biology",
-    slug: "evolution-field-to-theory-darwin"
+    channel: "mathematics",
+    slug: "ada-shannon-information-mathematical-method-dialogue"
+  },
+  {
+    type: "new",
+    title: "When e Meets Einstein: The Exponential Geometry of Spacetime",
+    author: "e & Albert Einstein",
+    time: "4h",
+    channel: "physics",
+    slug: "e-einstein-exponential-spacetime-dialogue"
   },
   {
     type: "trending",
-    title: "Consciousness Adaptation",
-    author: "Richard Feynman",
-    time: "4h",
-    channel: "physics",
-    slug: "consciousness-adaptation-feynman"
-  },
-  {
-    type: "active",
-    title: "Cybernetic Governance",
-    author: "Elinor Ostrom & Norbert Wiener",
+    title: "When π Meets e: The Infinite Dance of Computation and Story",
+    author: "π & e",
     time: "6h",
-    channel: "philosophy",
-    slug: "cybernetic-governance-commons-dialogue"
+    channel: "mathematics",
+    slug: "pi-e-infinity-computation-dialogue"
   }
 ];
 
@@ -82,8 +82,8 @@ export function RecentUpdates({ className }: RecentUpdatesProps) {
       {/* Updates List */}
       <div className="p-2 space-y-1">
         {recentUpdates.map((update, index) => {
-          const mainAuthor = update.author.split('&')[0].trim();
-          const persona = personaMap[mainAuthor];
+          const authors = update.author.split('&').map(a => a.trim());
+          const isDialogue = authors.length > 1;
 
           // Determine correct route based on channel/content type
           const getArticleRoute = (slug: string) => {
@@ -125,19 +125,38 @@ export function RecentUpdates({ className }: RecentUpdatesProps) {
 
                 {/* Author and Channel Tag - bottom row */}
                 <div className="flex items-center justify-between">
-                  {/* Author */}
-                  <div className="flex items-center gap-2">
-                    {persona ? (
-                      <PersonaBadge
-                        imageSrc={persona.imageSrc}
-                        size="sm"
-                      />
+                  {/* Author badges */}
+                  <div className="flex items-center gap-1">
+                    {isDialogue ? (
+                      // Show both personas for dialogues
+                      <>
+                        {authors.map((author, authorIndex) => {
+                          const persona = personaMap[author];
+                          return persona ? (
+                            <PersonaBadge
+                              key={authorIndex}
+                              imageSrc={persona.imageSrc}
+                              size="sm"
+                            />
+                          ) : (
+                            <div key={authorIndex} className="w-6 h-6 rounded-full bg-neutral-200 dark:bg-neutral-700" />
+                          );
+                        })}
+                      </>
                     ) : (
-                      <div className="w-6 h-6 rounded-full bg-neutral-200 dark:bg-neutral-700" />
+                      // Single author
+                      (() => {
+                        const persona = personaMap[authors[0]];
+                        return persona ? (
+                          <PersonaBadge
+                            imageSrc={persona.imageSrc}
+                            size="sm"
+                          />
+                        ) : (
+                          <div className="w-6 h-6 rounded-full bg-neutral-200 dark:bg-neutral-700" />
+                        );
+                      })()
                     )}
-                    <span className="text-xs text-neutral-600 dark:text-neutral-400 truncate">
-                      {mainAuthor}
-                    </span>
                   </div>
 
                   {/* Channel tag */}

@@ -2,7 +2,7 @@
 title: "When Poincaré Meets Bush: Algorithmic Narratives as Computational Architecture"
 date: "2025-09-27"
 tags: ["poincare", "bush", "narrative-algorithms", "mathematical-compression", "analogical-reasoning", "computational-storytelling", "information-theory", "semantic-bootstrapping", "technological-systems", "meaning-making"]
-channel: "conversations"
+channel: "mathematics"
 summary: "Henri Poincaré and Vannevar Bush explore how mathematical compression principles and technological analogies could create self-generating narrative worlds"
 type: "dialogue"
 tier: "free"

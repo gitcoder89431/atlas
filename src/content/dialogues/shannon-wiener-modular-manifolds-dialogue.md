@@ -2,7 +2,7 @@
 title: "When Shannon Meets Wiener: Modular Manifolds as Information Architecture"
 date: "2025-09-28"
 tags: ["shannon", "wiener", "modularity", "manifolds", "information-geometry", "control-theory", "composition", "interfaces", "feedback", "stability"]
-channel: "conversations"
+channel: "mathematics"
 summary: "Claude Shannon and Norbert Wiener explore how geometric structure in modular systems enables reliable composition through interface constraints and feedback control"
 type: "dialogue"
 tier: "free"

@@ -2,7 +2,7 @@
 title: "When Fuller Meets Da Vinci: Aesthetic Mechanics as Structural Intelligence"
 date: "2025-09-27"
 tags: ["fuller", "da-vinci", "aesthetic-mechanics", "tensegrity", "structural-intelligence", "information-geometry", "design-optimization", "architectural-beauty", "mathematical-elegance", "geodesic-design"]
-channel: "conversations"
+channel: "mathematics"
 summary: "Buckminster Fuller and Leonardo da Vinci explore how mathematical elegance and structural efficiency create beauty across design, architecture, and biology"
 type: "dialogue"
 tier: "free"

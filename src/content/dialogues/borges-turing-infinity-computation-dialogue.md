@@ -2,7 +2,7 @@
 title: "When Borges Meets Turing: Infinity and Computation as Literary Architecture"
 date: "2025-09-27"
 tags: ["borges", "turing", "infinity", "computation", "literature", "algorithms", "labyrinths", "undecidability", "narrative-theory", "meaning-generation", "bounded-constraints", "interpretive-spaces"]
-channel: "conversations"
+channel: "mathematics"
 summary: "Jorge Luis Borges and Alan Turing explore how infinite literary structures and computational theory intersect to create narratives that produce meaning without exhausting it"
 type: "dialogue"
 tier: "free"

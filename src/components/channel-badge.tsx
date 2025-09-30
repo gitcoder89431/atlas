@@ -5,8 +5,7 @@ import {
   Calculator,
   Dna,
   Scale,
-  Zap,
-  MessageCircle
+  Zap
 } from "lucide-react";
 
 interface Channel {
@@ -18,15 +17,16 @@ interface Channel {
 
 
 // Centralized channel definitions (matches channels-sidebar.tsx)
-export const CHANNELS: Record<string, Channel> = {
-  conversations: { id: "conversations", name: "Conversations", icon: MessageCircle, color: "#8b5cf6" },
-  biology: { id: "biology", name: "Biology", icon: Dna, color: "#f59e0b" },
-  physics: { id: "physics", name: "Physics", icon: Atom, color: "#3b82f6" },
-  mathematics: { id: "mathematics", name: "Mathematics", icon: Calculator, color: "#10b981" },
-  ethics: { id: "ethics", name: "Ethics", icon: Scale, color: "#ef4444" },
-  editorial: { id: "editorial", name: "Editorial", icon: Zap, color: "#ec4899" },
-  philosophy: { id: "philosophy", name: "Philosophy", icon: Brain, color: "#6b7280" }
-};
+const CHANNELS = {
+  editorial: { name: "Editorial", color: "#ec4899", icon: "⚡" },
+  biology: { name: "Biology", color: "#f59e0b", icon: "🧬" },
+  physics: { name: "Physics", color: "#3b82f6", icon: "⚛️" },
+  mathematics: { name: "Mathematics", color: "#10b981", icon: "🧮" },
+  ethics: { name: "Ethics", color: "#ef4444", icon: "⚖️" },
+  philosophy: { name: "Philosophy", color: "#a855f7", icon: "🤔" }
+} as const;
+
+type ChannelId = keyof typeof CHANNELS;
 
 interface ChannelBadgeProps {
   channelId: string;
@@ -43,7 +43,7 @@ export function ChannelBadge({
   showName = true,
   className
 }: ChannelBadgeProps) {
-  const channel = CHANNELS[channelId];
+  const channel = CHANNELS[channelId as ChannelId];
 
   if (!channel) {
     return null;
@@ -77,7 +77,7 @@ export function ChannelBadge({
       }}
     >
       {showIcon && (
-        <channel.icon className={iconSizeClasses[size]} />
+        <span className={iconSizeClasses[size]}>{channel.icon}</span>
       )}
       {showName && (
         <span className="font-medium">
@@ -90,5 +90,5 @@ export function ChannelBadge({
 
 // Simple helper for single channel display
 export function getChannelInfo(channelId: string) {
-  return CHANNELS[channelId] || null;
+  return CHANNELS[channelId as ChannelId] || null;
 }

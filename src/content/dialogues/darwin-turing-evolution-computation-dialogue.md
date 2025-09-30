@@ -2,7 +2,7 @@
 title: "When Darwin Meets Turing: Evolution and Computation as Learning Architecture"
 date: "2025-09-27"
 tags: ["darwin", "turing", "evolution", "computation", "learning-architecture", "selection-algorithms", "meta-learning", "fitness-landscapes", "neurosymbolic-systems", "universal-computation"]
-channel: "conversations"
+channel: "biology"
 summary: "Charles Darwin and Alan Turing explore how evolutionary selection and computational learning represent manifestations of the same underlying information-processing principles"
 type: "dialogue"
 tier: "free"

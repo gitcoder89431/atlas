@@ -2,7 +2,7 @@
 title: "Strategic Masters on the Science of Governance: Sun Tzu and Machiavelli on Cybernetic Control"
 date: "2025-09-25"
 tags: ["governance", "cybernetics", "strategy", "sun_tzu", "machiavelli", "commons-management", "control-theory", "institutional-design", "feedback-loops", "polycentric-governance", "political-realism", "strategic-planning"]
-channel: "conversations"
+channel: "ethics"
 summary: "Two master strategists explore how ancient principles of statecraft can be enhanced through modern cybernetic theory to create resilient governance systems."
 type: "dialogue"
 tier: "free"

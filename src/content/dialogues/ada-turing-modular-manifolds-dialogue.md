@@ -2,7 +2,7 @@
 title: "When Lovelace Meets Turing: Modular Manifolds as Computational Architecture"
 date: "2025-09-28"
 tags: ["ada-lovelace", "alan-turing", "modularity", "manifolds", "analytical-engine", "computation", "interfaces", "contracts", "epistemology"]
-channel: "conversations"
+channel: "mathematics"
 summary: "Ada Lovelace and Alan Turing explore how modular computational architectures reflect deeper geometric and epistemological principles, bridging mechanical calculation with modern machine learning"
 type: "dialogue"
 tier: "free"

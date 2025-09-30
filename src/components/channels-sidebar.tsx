@@ -8,8 +8,7 @@ import {
   Calculator,
   Dna,
   Scale,
-  Zap,
-  MessageCircle
+  Zap
 } from "lucide-react";
 
 interface Channel {
@@ -23,7 +22,6 @@ interface Channel {
 // Base channel definitions (counts will be calculated dynamically)
 const baseChannels: Omit<Channel, 'count'>[] = [
   { id: "editorial", name: "Editorial", icon: Zap, color: "#ec4899" },
-  { id: "conversations", name: "Discussions", icon: MessageCircle, color: "#8b5cf6" },
   { id: "biology", name: "Biology", icon: Dna, color: "#f59e0b" },
   { id: "physics", name: "Physics", icon: Atom, color: "#3b82f6" },
   { id: "mathematics", name: "Mathematics", icon: Calculator, color: "#10b981" },
@@ -58,11 +56,6 @@ export function ChannelsSidebar({
     const tags = article.frontmatter.tags || [];
     const content = article.content.toLowerCase();
     const title = article.frontmatter.title.toLowerCase();
-
-    // Conversations (highest priority for dialogues)
-    if (article.frontmatter.type === 'dialogue') {
-      return 'conversations';
-    }
 
     // Biology (high priority for evolution/life sciences)
     if (tags.some(tag => ['biology', 'evolution', 'life', 'natural-selection'].includes(tag.toLowerCase())) ||
@@ -106,7 +99,6 @@ export function ChannelsSidebar({
   // Calculate automatic counts if articles are provided
   const channelCounts = articles.length > 0 ? (() => {
     const counts: Record<string, number> = {
-      conversations: 0,
       biology: 0,
       physics: 0,
       mathematics: 0,
