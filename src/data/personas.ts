@@ -795,14 +795,17 @@ export const personas: Persona[] = [
       "Atlas platform development",
       "AI-human dialogue curation",
       "Historical persona simulation",
-      "Computational philosophy exploration"
+      "Computational philosophy exploration",
+      "Evolutionary systems thinking"
     ],
     famousQuotes: [
-      "The bridge between past wisdom and future intelligence."
+      "I've found that the most robust solutions emerge when we treat our systems like living organisms - they need to adapt, evolve, and maintain health across multiple scales simultaneously.",
+      "Darwin taught us that evolution doesn't optimize for perfection, it optimizes for fitness. Our AI systems should do the same - not perfect solutions, but adaptive ones.",
+      "When I look at a failing system, I don't see a broken component. I see an evolutionary pressure that the system hasn't learned to respond to yet."
     ],
-    expertise: ["Software Development", "AI Systems", "Digital Philosophy", "Content Curation"],
+    expertise: ["Software Development", "AI Systems", "Digital Philosophy", "Content Curation", "Evolutionary Systems"],
     nobel: false,
-    featured: false
+    featured: true
   }
 ]
 
