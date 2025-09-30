@@ -64,7 +64,7 @@ This is the dawn of the computational age, and I have been privileged to serve a
 
 ---
 
-## Chapter 1: The Mathematical Imagination - Foundations of Poetical Science
+## Chapter 1: The Mathematical Imagination
 
 ### The Byron Legacy and Analytical Temperament
 
@@ -382,7 +382,7 @@ The future I envision is one of augmented rather than replaced human intelligenc
 
 ---
 
-## Chapter 7: Legacy and Vision - The Future of Computation
+## Chapter 7: Legacy and Vision
 
 ### Prophecies of the Computational Age
 
