@@ -12,10 +12,10 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Calendar, Tag, Award, BookOpen, Users } from 'lucide-react'
-import { getFeaturedPersonas, type Persona } from '@/data/personas'
+import { getAgencyPersonas, type Persona } from '@/data/personas'
 
-// Get featured personas for public display
-const personas = getFeaturedPersonas()
+// Get agency-visible personas for public display
+const personas = getAgencyPersonas()
 
 export default function AgencyPage() {
   const [selectedPersona, setSelectedPersona] = useState<Persona | null>(null)

@@ -11,9 +11,36 @@ export interface Persona {
   expertise: string[]
   nobel?: boolean
   featured?: boolean
+  agencyVisible?: boolean  // Whether to show in agency page (defaults to true if featured)
 }
 
 export const personas: Persona[] = [
+  {
+    id: "neanderthal",
+    name: "Neanderthal",
+    title: "Ice Age Innovator & First Human Technologist",
+    era: "400,000 - 40,000 years ago",
+    videoSrc: "/images/portraits/neanderthal_s01_optimized.jpg",
+    imageSrc: "/images/portraits/neanderthal_s01_optimized.jpg",
+    bio: "Our evolutionary cousins who mastered sophisticated stone tool technologies, controlled fire, developed collaborative hunting strategies, and created the first symbolic expressions during the challenging Ice Age. Neanderthals established fundamental patterns of human consciousness and technological innovation.",
+    keyContributions: [
+      "Advanced stone tool technologies (Levallois technique)",
+      "Systematic fire control and environmental engineering",
+      "Collaborative hunting of megafauna",
+      "Symbolic expression through ochre and cave art",
+      "Sophisticated burial practices indicating consciousness of death",
+      "Interspecies cultural exchange with early modern humans"
+    ],
+    famousQuotes: [
+      "The stone tells me how it wants to break. I must listen before I strike, feel the grain, understand the fracture lines.",
+      "Fire is our tame sun, bringing warmth and light where the cold would kill us.",
+      "We move as one mind in many bodies, each hunter knowing what the others will do."
+    ],
+    expertise: ["Stone Technology", "Fire Mastery", "Collaborative Hunting", "Symbolic Consciousness", "Environmental Adaptation", "Ice Age Survival"],
+    nobel: false,
+    featured: true,
+    agencyVisible: false  // Show in explore/articles but not on agency page
+  },
   {
     id: "richard_feynman",
     name: "Richard Feynman",
@@ -884,6 +911,10 @@ export const personas: Persona[] = [
 // Helper functions
 export const getFeaturedPersonas = (): Persona[] => {
   return personas.filter(persona => persona.featured)
+}
+
+export const getAgencyPersonas = (): Persona[] => {
+  return personas.filter(persona => persona.featured && persona.agencyVisible !== false)
 }
 
 export const getAllPersonas = (): Persona[] => {
