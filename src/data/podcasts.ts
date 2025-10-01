@@ -10,6 +10,36 @@ export interface PodcastEpisode {
 
 export const podcastEpisodes: PodcastEpisode[] = [
   {
+    id: 'leonardo-unified-blueprint-2025',
+    title: 'Leonardo\'s Blueprint: Decoding the Unified System of Art and Science',
+    description:
+      'Fourteen-minute deep dive: How Leonardo da Vinci engineered a unified discovery system treating art and science as complementary ways of understanding reality—using integrated observation through drawing, systematic documentation to fight bias, and analogical reasoning to transfer universal principles like flow dynamics across anatomy, hydraulics, and engineering.',
+    date: '2025-10-01',
+    duration: '14:26',
+    audioSrc: '/podcasts/leonardo-unified-blueprint-art-science-2025-10-01.mp3',
+    topics: ['Leonardo da Vinci', 'Unified System', 'Art and Science', 'Integrated Observation', 'Analogical Reasoning', 'Renaissance Method'],
+  },
+  {
+    id: 'marie-curie-systematic-method-2025',
+    title: 'Marie Curie\'s Secret: The Systematic Method That Found the Unfindable',
+    description:
+      'Sixteen-minute deep dive: How Marie Curie\'s revolutionary systematic experimental methodology—combining quantitative precision with extraordinary persistence—recognized radioactivity as an atomic property and invented radiochemical analysis, where the electrometer guided chemical separations to detect substances invisible to traditional analysis.',
+    date: '2025-10-01',
+    duration: '16:34',
+    audioSrc: '/podcasts/marie-curie-systematic-method-unfindable-2025-10-01.mp3',
+    topics: ['Marie Curie', 'Systematic Methodology', 'Radiochemical Analysis', 'Atomic Properties', 'Experimental Physics', 'Scientific Method'],
+  },
+  {
+    id: 'hypatia-alexandrian-synthesis-2025',
+    title: 'Hypatia\'s Alexandrian Synthesis: How Math Became the Bedrock of Philosophical Authority',
+    description:
+      'Fifteen-minute deep dive: How Hypatia of Alexandria unified philosophical wisdom with mathematical rigor through her "contemplative rationalism"—where mathematical proofs provided intellectual discipline for deeper insight, while precision instruments like the hydrometer demonstrated practical competence that commanded cross-sectarian authority in a divided city.',
+    date: '2025-10-01',
+    duration: '14:51',
+    audioSrc: '/podcasts/hypatia-alexandrian-synthesis-math-bedrock-2025-10-01.mp3',
+    topics: ['Hypatia', 'Alexandrian Synthesis', 'Mathematical Philosophy', 'Contemplative Rationalism', 'Classical Antiquity', 'Cross-Sectarian Authority'],
+  },
+  {
     id: 'ada-lovelace-poetical-science-2025',
     title: 'Ada Lovelace: Poetical Science and Universal Computation',
     description:
