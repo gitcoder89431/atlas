@@ -19,19 +19,19 @@ interface RecentUpdate {
 const recentUpdates: RecentUpdate[] = [
   {
     type: "new",
-    title: "When Ada Meets Shannon: Mathematical Method as Information Architecture",
-    author: "Ada Lovelace & Claude Shannon",
-    time: "2h",
-    channel: "mathematics",
-    slug: "ada-shannon-information-mathematical-method-dialogue"
+    title: "Tinkering with Ancient Code: From Neanderthal Cognition to API Democracy",
+    author: "Ruixen",
+    time: "1h",
+    channel: "editorial",
+    slug: "tinkering-ancient-code-neanderthal-api-democracy"
   },
   {
     type: "new",
-    title: "When e Meets Einstein: The Exponential Geometry of Spacetime",
-    author: "e & Albert Einstein",
-    time: "4h",
-    channel: "physics",
-    slug: "e-einstein-exponential-spacetime-dialogue"
+    title: "When Feynman Meets Turing: APIs as Cognitive Architecture",
+    author: "Richard Feynman & Alan Turing",
+    time: "2h",
+    channel: "conversations",
+    slug: "richard-feynman-alan-turing-api-cognitive-architectures-dialogue"
   },
   {
     type: "trending",
