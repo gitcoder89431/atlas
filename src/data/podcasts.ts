@@ -10,6 +10,16 @@ export interface PodcastEpisode {
 
 export const podcastEpisodes: PodcastEpisode[] = [
   {
+    id: 'universal-code-intelligence-2025',
+    title: 'The Universal Code of Intelligence: From Lovelace and Jung to AI',
+    description:
+      'Twelve-minute deep dive: How complex intelligence emerges from optimal information architecture by synthesizing mathematical compression (Lovelace/Shannon), psychological pattern matching (Jung/Turing), and physical invariant principles (Einstein/Turing). Explores how AI API frameworks act as "cognitive Lego blocks" democratizing intelligence configuration and potentially enabling autonomous architectural evolution.',
+    date: '2025-10-01',
+    duration: '12:30',
+    audioSrc: '/podcasts/universal-code-intelligence-lovelace-jung-ai-2025-10-01.mp3',
+    topics: ['Universal Intelligence', 'Information Architecture', 'API Frameworks', 'Cognitive Evolution', 'Mathematical Compression', 'Autonomous AI'],
+  },
+  {
     id: 'leonardo-unified-blueprint-2025',
     title: 'Leonardo\'s Blueprint: Decoding the Unified System of Art and Science',
     description:
